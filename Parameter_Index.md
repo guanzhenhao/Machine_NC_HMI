@@ -63,6 +63,7 @@
 |POSITION[3]|装夹工件时Z轴坐标
 |POSITION[4]|装夹工件时C轴坐标
 |POSITION[5]|砂轮主轴中心与滚轮圆弧顶部(金刚笔尖)重合时X(V)轴坐标
+|POSITION[6]|砂轮中心与滚轮中心水平重合时Z(W)轴坐标
 
 |**修整参数(DRESSER)**|
 |DRESSER[0]|新砂轮直径
