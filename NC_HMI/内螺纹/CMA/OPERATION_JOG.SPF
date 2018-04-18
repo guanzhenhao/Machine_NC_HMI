@@ -9,10 +9,10 @@ G90 G01 Z=POSITION[11] F4500;Z轴快速移动到磨削起点
 G90 G01 C=ACP(0) F=10800;手动对刀C轴初始角度为0°
 STOPRE
 G04 F0.5
-MEASURE[2]=$AA_IM[C];读取C轴初始角度 
-MEASURE[3]=$AA_IM[Z];读取对刀开始时Z轴坐标
+TOOL_SET[2]=$AA_IM[C];读取C轴初始角度 
+TOOL_SET[3]=$AA_IM[Z];读取对刀开始时Z轴坐标
 MSG("手动对刀已启动,请进行对刀操作")
-IF MEASURE[4]==0;;对刀模式(zc插补0/静止对刀1)
+IF TOOL_SET[4]==0;;对刀模式(zc插补0/静止对刀1)
     Z_C_INTERPOLATION(POSITION[11],POSITION[12],5);手动对刀时头架转速5转
 ELSE
     MSG("静态对刀已启动,对刀完成后再次启动程序!!!")

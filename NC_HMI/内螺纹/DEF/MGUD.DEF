@@ -1,0 +1,16 @@
+;**********程序功能**********
+;自定义全局变量
+;***************************
+;机床配置参数
+DEF NCK REAL CONFIG[10]
+;轴位置参数
+DEF NCK REAL POSITION[30]
+;修整参数
+DEF NCK REAL DRESSER[30]
+;磨削参数
+DEF NCK REAL GRIND[30]
+;工艺参数
+DEF NCK REAL PROCESSER[100]
+;对刀参数
+DEF NCK REAL TOOL_SET[20]
+M30
