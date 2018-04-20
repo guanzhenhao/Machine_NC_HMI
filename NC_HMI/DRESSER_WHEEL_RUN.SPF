@@ -7,14 +7,14 @@ DEF REAL DR0,DR1
 DR0=LINE_SPEED*60000/($PI*DRESSER[8]);依据线速度计算修整轮转速
 
 IF (CONIFG[4]==0) OR (CONFIG[4]==2);(0模拟量/1伺服2异步电机)
-    R297=LINE_SPEED
+    R297=DR0
     G4 F0.2
     M63;修整轮启动
 ELSE
     IF (CONIFG[3]==0) OR (CONIFG[3]==2)
-        M1=3 S1=LINE_SPEED
+        M1=3 S1=DR0
     ELSE
-        M2=3 S2=LINE_SPEED
+        M2=3 S2=DR0
     ENDIF
 ENDIF
 

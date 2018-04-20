@@ -7,11 +7,11 @@ DEF REAL DR0,DR1
 DR0=LINE_SPEED*60000/($PI*DRESSER[1]);依据线速度计算砂轮转速
 
 IF (CONFIG[3]==0) OR (CONFIG[3]==2);(0模拟量/1伺服/2异步电机)
-    R299=LINE_SPEED
+    R299=DR0
     G4 F0.2
     M13;砂轮启动
 ELSE
-    M1=3 S1=LINE_SPEED
+    M1=3 S1=DR0
 ENDIF
 
 IF $A_DBB[12]==0;砂轮当前未启动
