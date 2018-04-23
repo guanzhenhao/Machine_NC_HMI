@@ -27,6 +27,7 @@
 	HS2=($85001,ac7,se1)
 	HS3=($85003,ac7,se1)
 	HS4=($85002,ac7,se1)
+	HS5=($85010,ac7,se1)
 	VS8=($85005,ac7,se1)
 	PRESS(HS1)
 		LM("Mask0","guancha.com",0);观察界面
@@ -39,6 +40,9 @@
 	END_PRESS
 	PRESS(HS4)
 		LM("Mask0","gongyi.com",0);修整界面
+	END_PRESS
+	PRESS(HS5)
+		LM("Mask0","duidao.com",0);修整界面
 	END_PRESS
 	PRESS(VS8)
 		EXIT

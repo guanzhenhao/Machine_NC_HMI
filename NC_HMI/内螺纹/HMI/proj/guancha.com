@@ -23,11 +23,12 @@
 	DEF VAR13=(R3///$85176,$85176,$85055,/WR1//"/NC/_N_NC_GD2_ACX/TOOL_SET[1]"/25,310,185/120,310,50/3,4);头架初始角度
 	DEF VAR14=(R3///$85169,$85169,$85043,/WR1//"/NC/_N_NC_GD2_ACX/POSITION[22]"/10,330,200/120,330,50/3,4);初始磨削接触位置
 	DEF VAR15=(R3///$85158,$85158,$85043,/WR1//"/NC/_N_NC_GD2_ACX/POSITION[2]"/10,350,200/120,350,50/3,4);当前磨削接触位置
-
+;;按键定义
 	HS1=($85015,ac7,se1)
 	HS2=($85001,ac7,se1)
 	HS3=($85003,ac7,se1)
 	HS4=($85002,ac7,se1)
+	HS5=($85010,ac7,se1)
 	VS8=($85005,ac7,se1)
 	PRESS(HS1)
 		LM("Mask0","guancha.com",0);观察界面
@@ -40,6 +41,9 @@
 	END_PRESS
 	PRESS(HS4)
 		LM("Mask0","gongyi.com",0);修整界面
+	END_PRESS
+	PRESS(HS5)
+		LM("Mask0","duidao.com",0);修整界面
 	END_PRESS
 	PRESS(VS8)
 		EXIT
