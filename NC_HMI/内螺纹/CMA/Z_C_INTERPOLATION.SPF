@@ -1,4 +1,4 @@
-PROC Z_C_INTERPOLATION(REAL DR1,REAL DR2,REAL DR3) DISPLON
+PROC Z_C_INTERPOLATION(REAL DR1,REAL DR2,REAL DR3) DISPLOF
 ;;**********程序功能**********
 ;;内螺纹ZC插补(依据传入的起点，终点，头架转速),磨削起点都在右侧
 ;DR1:z轴起点;DR2:z轴终点;DR3:头架转速
@@ -15,3 +15,4 @@ IF $A_DBB[2]==0;没按退刀键
     R281=$AA_IM[Z]
 ENDIF
 RET
+

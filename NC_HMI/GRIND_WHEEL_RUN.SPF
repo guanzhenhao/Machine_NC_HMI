@@ -1,4 +1,4 @@
-PROC GRIND_WHEEL_RUN(REAL LINE_SPEED) DISPLON
+PROC GRIND_WHEEL_RUN(REAL LINE_SPEED) DISPLOF
 ;;**********程序功能**********
 ;;砂轮启动
 ;LINE_SPEED砂轮线速度
@@ -21,4 +21,5 @@ ELSE
 ENDIF
 G4 F=DR1;砂轮转速等待时间
 RET
+
 

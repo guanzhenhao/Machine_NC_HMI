@@ -1,8 +1,8 @@
-PROC PLCASUP1 DISPLON
+PROC PLCASUP1 DISPLOF
 ;;**********程序功能**********
 ;;内螺纹对刀计算程序:
 ;;***************************
-DEF REAL DR0,DR1,DR2,DR3,DR4,DR5,DR6,C_ANG
+DEF REAL DR0,DR1,DR2,DR3,DR4,DR5,DR6
 DR0=R280;对刀完成后x轴坐标(用于磨削初始进刀位)
 DR1=R281;手动对刀完成后Z轴坐标
 DR2=$AC_DRF[Z];对刀完成时手轮偏置值
@@ -13,7 +13,7 @@ IF(GRIND[22]==2);手动对刀
     DR4=ABS(TOOL_SET[3]-POSITION[11]);当前位置到起始点的距离
     DR5=DR4/GRIND[3]
     DR6=(DR5-TRUNC(DR5))*360
-    TOOL_SET[0]=TOOL_SET[2]-*DR6
+    TOOL_SET[0]=TOOL_SET[2]-GRIND[0]*DR6
     ANG_WITHIN_360(TOOL_SET[0])
     ;依据手动对刀中Z轴DRF值计算磨削起始角度
 	TOOL_SET[0]=TOOL_SET[0]+GRIND[2]*DR2/GRIND[3]*360
@@ -30,4 +30,5 @@ ELSE;不是对刀
 ENDIF
 
 RET
+
 

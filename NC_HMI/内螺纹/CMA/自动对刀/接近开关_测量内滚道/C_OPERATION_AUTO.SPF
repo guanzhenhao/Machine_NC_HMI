@@ -1,4 +1,4 @@
-PROC C_OPERATION_AUTO DISPLOF
+PROC C_OPERATION_AUTO DISPLON
 ;;**********程序功能**********
 ;;内螺纹自动对刀程序:
 ;;适用于接近开关Z轴移动测量内滚道
