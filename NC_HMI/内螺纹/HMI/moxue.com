@@ -1,12 +1,7 @@
 ;;;;;;;;;;;;;;;;;;;磨削界面;;;;;;;;;;;;;;;;;;;;;;;;;
 //M(Mask0/$85020/"blank.png"/)
-
-	DEF X_IM=(R///$85118,$85118,,/WR1//"$AA_IM[X]"/10,10,20/30,10,60/3,4);X_IM
-	DEF Z_IM=(R///$85119,$85119,,/WR1//"$AA_IM[Z]"/10,30,20/30,30,60/3,4);Z_IM
-	DEF C_IM=(R///$85120,$85120,,/WR1//"$AA_IM[C]"/10,50,20/30,50,60/3,4);C_IM
-	DEF X_DRF=(R///$85116,$85116,,/WR1//"$AC_DRF[X]"/150,10,50/200,10,60/3,4);DRF_X
-	DEF Z_DRF=(R///$85117,$85117,,/WR1//"$AC_DRF[Z]"/150,30,50/200,30,60/3,4);DRF_Z
 ;;基础参数
+	DEF VAR0=(I/*0=$85166,1=$85167//,,,/WR2/"panel_1_1_chs.png"/"/NC/_N_NC_GD2_ACX/GRIND[12]"/380,10,190/460,10,70/3,4);加工模式
 	DEF VAR_GRD0=(R/*-1=$85125,1=$85124//$85103,$85103,,/WR2/"panel_1_2_chs.png"/"/NC/_N_NC_GD2_ACX/GRIND[1]"/380,30,190/460,30,70/3,4);工件旋向
 	DEF VAR_GRD1=(I///$85102,$85102,$85051,/WR2/"panel_1_3_chs.png"/"/NC/_N_NC_GD2_ACX/GRIND[2]"/380,50,190/460,50,70/7,4);工件头数
 	DEF VAR_GRD2=(R///$85110,$85110,$85043,/WR4//"/NC/_N_NC_GD2_ACX/GRIND[4]"/380,70,190/460,70,70/7,4);工件导程
@@ -28,32 +23,26 @@
 	DEF VAR_GRD15=(R///$85112,$85112,$85043,/WR2/"panel_1_13_chs.png"/"/NC/_N_NC_GD2_ACX/POSITION[3]"/380,160,190/460,160,70/7,4);装夹工件时X轴坐标
 	DEF VAR_GRD16=(R///$85113,$85113,$85043,/WR2/"panel_1_14_chs.png"/"/NC/_N_NC_GD2_ACX/POSITION[4]"/380,180,190/460,180,70/7,4);装夹工件时Z轴坐标
 	DEF VAR_GRD17=(R///$85114,$85114,$85055,/WR2/"panel_1_15_chs.png"/"/NC/_N_NC_GD2_ACX/POSITION[5]"/380,200,190/460,200,70/7,4);装夹工件时C轴角度
-;;其他参数
-	DEF VAR0=(I/*0=$85166,1=$85167//,,,/WR2/"panel_1_1_chs.png"/"/NC/_N_NC_GD2_ACX/GRIND[12]"/380,10,190/460,10,70/3,4);加工模式
-	DEF VAR1=(R3///$85176,$85176,$85055,/WR1//"/NC/_N_NC_GD2_ACX/TOOL_SET[1]"/25,310,205/120,310,70/3,4);头架初始角度
-	DEF VAR2=(R3///$85169,$85169,$85043,/WR1//"/NC/_N_NC_GD2_ACX/POSITION[22]"/10,330,220/120,330,70/3,4);初始磨削接触位置
-	DEF VAR3=(R3///$85158,$85158,$85043,/WR1//"/NC/_N_NC_GD2_ACX/POSITION[2]"/10,350,220/120,350,70/3,4);当前磨削接触位置
-	DEF VAR4=(R3///$85126,$85126,$85043,/WR2//"/NC/_N_NC_GD2_ACX/POSITION[8]"/380,290,190/460,290,70/7,4);磨削基准
-	DEF SWITCH_2=(I/*0=$85059,1=$85058/0/$85063,$85063,,/WR2//"/NC/_N_NC_GD2_ACX/SWITCH[3]"/0,0,0/350,290,20/7,4);参数锁定开关
-	DEF VAR5=(R3/-0.5,0.5//$85174,$85174,$85043,/WR2//"/NC/_N_NC_GD2_ACX/GRIND[20]"/380,310,190/460,310,70/7,4);中径调整
-	DEF VAR6=(R3/-0.5,0.5//$85175,$85175,$85043,/WR2//"/NC/_N_NC_GD2_ACX/GRIND[13]"/380,330,190/460,330,70/7,4);偏刀调整
-	DEF VAR7=(R3/-0.5,0.5//$85105,$85105,$85043,/WR2//"/NC/_N_NC_GD2_ACX/GRIND[19]"/380,350,190/460,350,70/7,4);导程调整
 ;;按键定义
-	HS1=($85001,ac7,se1)
-	HS2=($85003,ac7,se1)
-	HS3=($85002,ac7,se1)
-	HS4=($85010,ac7,se1)
+	HS1=($85015,ac7,se1)
+	HS2=($85001,ac7,se1)
+	HS3=($85003,ac7,se1)
+	HS4=($85002,ac7,se1)
+	HS5=($85010,ac7,se1)
 	VS8=($85005,ac7,se1)
 	PRESS(HS1)
-		LM("Mask0","moxue.com",0);磨削界面
+		LM("Mask0","guancha.com",0);观察界面
 	END_PRESS
 	PRESS(HS2)
-		LM("Mask0","xiuzheng.com",0);修整界面
+		LM("Mask0","moxue.com",0);磨削界面
 	END_PRESS
 	PRESS(HS3)
-		LM("Mask0","gongyi.com",0);修整界面
+		LM("Mask0","xiuzheng.com",0);修整界面
 	END_PRESS
 	PRESS(HS4)
+		LM("Mask0","gongyi.com",0);修整界面
+	END_PRESS
+	PRESS(HS5)
 		LM("Mask0","duidao.com",0);修整界面
 	END_PRESS
 	PRESS(VS8)
@@ -66,12 +55,6 @@
 	END_CHANGE
 
 	SUB(UP1)
-	;;开关锁
-	IF SWITCH_2.VAL==0
-		VAR4.WR=1
-	ELSE
-		VAR4.WR=2
-	ENDIF
 	;;导程计算
 		VAR_GRD2.VAL=VAR_GRD1.VAL*VAR_GRD3.VAL
 	;;螺旋升角
