@@ -1,5 +1,4 @@
-
-;;;;;;;;;;;;;;;;;;;修整界面,用于内螺纹插补向前修整;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;修整界面,用于内螺纹X-Z插补修整;;;;;;;;;;;;;;;;;;;;;;;;;
 //M(Mask0/$85711/"panel_2_14_chs.png"/)
 	;;修整参数
 		DEF VAR_SL0=(I/*0=$85327,1=$85328//$85310,$85310,,/WR2//"/NC/_N_NC_GD2_ACX/DRESSER[8]"/355,10,110/440,10,60/3,4);新旧砂轮
@@ -11,13 +10,17 @@
 		DEF VAR_SL6=(R/0,1000//$85307,$85307,,$85045/WR2//"/NC/_N_NC_GD2_ACX/DRESSER[16]"/355,140,110/440,140,110/7,4);精修速度
 		DEF VAR_SL7=(R/0,200//$85316,$85316,,$85043/WR2//"/NC/_N_NC_GD2_ACX/DRESSER[28]"/355,250,110/440,250,110/7,4);砂轮宽度
 		DEF VAR_SL8=(R/0,1000//$85319,$85319,,$85043/WR1//"/NC/_N_NC_GD2_ACX/DRESSER[1]"/340,270,110/440,270,110/7,4);新砂轮直径
-		DEF VAR_SL9=(R/0,1000//$85320,$85320,,$85043/WR2//"/NC/_N_NC_GD2_ACX/DRESSER[2]"/325,290,110/440,290,110/7,4);砂轮当前直径
-		DEF SWITCH_0=(I/*0=$85059,1=$85058/0/$85063,$85063,,/WR2//"/NC/_N_NC_GD2_ACX/SWITCH[1]"/0,0,0/535,290,20/);参数锁定开关
-		DEF GUANCHA_0=(R/0,1000//$85322,$85321,,$85043/WR1//"/NC/_N_NC_GD2_ACX/DRESSER[27]"/325,310,110/440,310,110/7,4);观察参数(当前砂轮直径对应的修整接触点坐标)
+		DEF VAR_SL9=(R/0,1000//$85320,$85320,,$85043/WR1//"/NC/_N_NC_GD2_ACX/DRESSER[2]"/325,290,110/440,290,110/7,4);砂轮当前直径
+		DEF SWITCH_0=(I/*0=$85059,1=$85058/0/$85063,$85063,,/WR2//"/NC/_N_NC_GD2_ACX/SWITCH[1]"/0,0,0/535,310,20/);参数锁定开关
+		DEF GUANCHA_0=(R///$85322,$85321,,$85043/WR1//"/NC/_N_NC_GD2_ACX/POSITION[1]"/325,310,110/440,310,110/7,4);观察参数(当前砂轮直径对应的修整接触点坐标)
 		DEF VAR_SL10=(R/0,80//$85317,$85317,,$85046/WR2//"/NC/_N_NC_GD2_ACX/DRESSER[18]"/340,190,110/440,190,110/7,4);砂轮线速度
 		DEF VAR_SL11=(R2///$85221,$85221,,$85044/WR1//"/NC/_N_NC_GD2_ACX/DRESSER[26]"/355,170,110/440,170,110/7,4);修整时砂轮转速
 		DEF VAR_SL12=(R2///$85304,$85304,,$85044/WR2//"/NC/_N_NC_GD2_ACX/DRESSER[3]"/295,330,130/440,330,110/7,4);最大砂轮磨削直径
-		DEF VAR_SL13=(R2///$85303,$85303,,$85044/WR2//"/NC/_N_NC_GD2_ACX/DRESSER[4]"/295,350,130/440,350,110/7,4);最小砂轮磨削直径		
+		DEF VAR_SL13=(R2///$85303,$85303,,$85044/WR2//"/NC/_N_NC_GD2_ACX/DRESSER[4]"/295,350,130/440,350,110/7,4);最小砂轮磨削直径
+		DEF SWITCH_1=(I/*0=$85059,1=$85058/0/$85063,$85063,,/WR2//"/NC/_N_NC_GD2_ACX/SWITCH[2]"/0,0,0/10,310,20/);参数锁定开关
+		DEF VAR_GL6=(R///$85609,$85608,,$85043/WR2/"panel_2_7_chs.png"/"/NC/_N_NC_GD2_ACX/POSITION[7]"/40,310,110/120,310,110/7,4);砂轮中心与滚轮中心水平重合时Z轴坐标	
+		DEF VAR_GL0=(R///$85627,$85601,,$85043/WR2/"panel_2_8_chs.png"/"/NC/_N_NC_GD2_ACX/POSITION[6]"/40,330,110/120,330,110/7,4);修整接触位置基准(砂轮主轴中心与滚轮圆弧顶部(金刚笔尖)重合时X轴坐标)
+		DEF VAR_GL1=(R///$85626,$85602,,$85043/WR2/"panel_2_9_chs.png"/"/NC/_N_NC_GD2_ACX/DRESSER[25]"/40,350,110/120,350,110/7,4);手动对出的新砂轮触碰滚轮时X轴坐标	
 	;;定义按键		
 		HS1=($85001,ac7,se1)
 		HS2=($85003,ac7,se1)
@@ -44,25 +47,51 @@
 			EXIT
 		END_PRESS
 	;;CHANGE事件
-		CHANGE( )
+		CHANGE()
 			CALL("UP1")	
 		END_CHANGE
-
+		CHANGE(VAR_GL0);;修整基准
+			CALL("UP2")	
+			CALL("UP3")	
+		END_CHANGE
+		CHANGE(VAR_GL1);;新砂轮对出的接触点坐标
+			CALL("UP2")	
+		END_CHANGE
+		CHANGE(VAR_SL0);;新旧砂轮
+			CALL("UP2")	
+		END_CHANGE
+		CHANGE(GUANCHA_0);;修整接触点
+			CALL("UP3")	
+		END_CHANGE
 		SUB(UP1)
-		;;当前砂轮直径是否可改
+		;;计算修砂轮转速
+			VAR_SL11=VAR_SL10*60000/(PI*VAR_SL9)
+		;;当前接触位置是否可改
 			IF SWITCH_0.VAL==0
-				VAR_SL9.WR=1
+				GUANCHA_0.WR=1
 			ELSE
-				VAR_SL9.WR=2
+				GUANCHA_0.WR=2
 			ENDIF
-		;;新砂轮当前砂轮直径=新砂轮直径
-			IF VAR_SL0.VAL==0
+		;;修整基准参数是否可更改
+			IF SWITCH_1.VAL==0
+				VAR_GL0.WR=1
+				VAR_GL1.WR=1
+				VAR_GL6.WR=1
+			ELSE
+				VAR_GL0.WR=2
+				VAR_GL1.WR=2
+				VAR_GL6.WR=2
+			ENDIF
+		END_SUB
+		SUB(UP2)
+			VAR_SL8.VAL=2*(VAR_GL0.VAL-VAR_GL1.VAL);计算新砂轮直径
+			IF VAR_SL0.VAL==0;新砂轮时当前砂轮直径等于新砂轮直径,计算修整接触点
 				VAR_SL9.VAL=VAR_SL8.VAL
+				GUANCHA_0.VAL=VAR_GL0.VAL-VAR_SL8.VAL/2
 			ENDIF
-		;;依据当前砂轮直径计算对应修整接触点
-			GUANCHA_0.VAL=VAR_GL0.VAL-VAR_SL9.VAL/2
-		;;计算砂轮转速
-			VAR_SL11=VAR_SL10*60000/(PI*VAR_SL9);修整时砂轮转速计算
+		END_SUB
+		SUB(UP3)
+			VAR_SL9.VAL=2*(VAR_GL0.VAL-GUANCHA_0);计算当前砂轮直径
 		END_SUB
 
 //END
@@ -79,9 +108,9 @@
 		DEF VAR_SL6=(R/0,1000//$85307,$85307,,$85045/WR2//"/NC/_N_NC_GD2_ACX/DRESSER[16]"/355,140,110/440,140,110/7,4);精修速度
 
 		DEF VAR_SL8=(R/0,1000//$85319,$85319,,$85043/WR1//"/NC/_N_NC_GD2_ACX/DRESSER[1]"/340,270,110/440,270,110/7,4);新砂轮直径
-		DEF VAR_SL9=(R/0,1000//$85320,$85320,,$85043/WR2//"/NC/_N_NC_GD2_ACX/DRESSER[2]"/325,290,110/440,290,110/7,4);砂轮当前直径
-		DEF SWITCH_0=(I/*0=$85059,1=$85058/0/$85063,$85063,,/WR2//"/NC/_N_NC_GD2_ACX/SWITCH[1]"/0,0,0/535,290,20/);参数锁定开关
-		DEF GUANCHA_0=(R/0,1000//$85322,$85321,,$85043/WR1//"/NC/_N_NC_GD2_ACX/DRESSER[27]"/325,310,110/440,310,110/7,4);观察参数(当前砂轮直径对应的修整接触点坐标)
+		DEF VAR_SL9=(R/0,1000//$85320,$85320,,$85043/WR1//"/NC/_N_NC_GD2_ACX/DRESSER[2]"/325,290,110/440,290,110/7,4);砂轮当前直径
+		DEF SWITCH_0=(I/*0=$85059,1=$85058/0/$85063,$85063,,/WR2//"/NC/_N_NC_GD2_ACX/SWITCH[1]"/0,0,0/535,310,20/);参数锁定开关
+		DEF GUANCHA_0=(R///$85322,$85321,,$85043/WR1/"panel_2_3_2_chs.png"/"/NC/_N_NC_GD2_ACX/POSITION[1]"/325,310,110/440,310,110/7,4);观察参数(当前砂轮直径对应的修整接触点坐标)
 		DEF VAR_SL10=(R/0,80//$85317,$85317,,$85046/WR2//"/NC/_N_NC_GD2_ACX/DRESSER[18]"/340,250,110/440,250,110/7,4);砂轮线速度
 		DEF VAR_SL11=(R2///$85221,$85221,,$85044/WR1//"/NC/_N_NC_GD2_ACX/DRESSER[26]"/355,230,110/440,230,110/7,4);修整时砂轮转速
 		DEF VAR_SL12=(R2///$85304,$85304,,$85044/WR2//"/NC/_N_NC_GD2_ACX/DRESSER[3]"/295,330,130/440,330,130/7,4);最大砂轮磨削直径
@@ -89,12 +118,12 @@
 	;;滚轮参数
 		DEF SWITCH_1=(I/*0=$85059,1=$85058/0/$85063,$85063,,/WR2//"/NC/_N_NC_GD2_ACX/SWITCH[2]"/0,0,0/10,230,20/);参数锁定开关
 		DEF VAR_GL0=(R///$85627,$85601,,$85043/WR2/"panel_2_2_chs.png"/"/NC/_N_NC_GD2_ACX/POSITION[6]"/40,250,110/120,250,110/7,4);修整接触位置基准(砂轮主轴中心与滚轮圆弧顶部(金刚笔尖)重合时X轴坐标)
-		DEF VAR_GL1=(R///$85626,$85602,,$85043/WR2/"panel_2_3_chs.png"/"/NC/_N_NC_GD2_ACX/DRESSER[25]"/40,270,110/120,270,110/7,4);手动对出的新砂轮触碰滚轮时X轴坐标
+		DEF VAR_GL1=(R///$85626,$85602,,$85043/WR2/"panel_2_3_1_chs.png"/"/NC/_N_NC_GD2_ACX/DRESSER[25]"/40,270,110/120,270,110/7,4);手动对出的新砂轮触碰滚轮时X轴坐标
 		DEF VAR_GL2=(R/0,5//$85604,$85604,,$85047/WR2/"panel_2_4_chs.png"/"/NC/_N_NC_GD2_ACX/DRESSER[17]"/40,290,110/120,290,110/7,4);滚压轮停留时间
 		DEF VAR_GL3=(R/0,500//$85620,$85620,,$85043/WR2/"panel_2_5_chs.png"/"/NC/_N_NC_GD2_ACX/DRESSER[9]"/25,310,110/120,310,110/7,4);修整轮直径
 		DEF VAR_GL4=(R/0,60//$85621,$85621,,$85046/WR2/"panel_2_6_chs.png"/"/NC/_N_NC_GD2_ACX/DRESSER[10]"/10,350,110/120,350,110/7,4);修整轮线速度
 		DEF VAR_GL5=(R2///$85600,$85600,,$85044/WR1//"$R[297]"/25,330,110/120,330,110/7,4);修整轮转速
-		DEF VAR_GL6=(R///$85607,$85608,,$85043/WR2//"/NC/_N_NC_GD2_ACX/POSITION[7]"/40,230,110/120,230,110/7,4);砂轮中心与滚轮中心水平重合时Z轴坐标	
+		DEF VAR_GL6=(R///$85607,$85608,,$85043/WR2/"panel_2_1_chs.png"/"/NC/_N_NC_GD2_ACX/POSITION[7]"/40,230,110/120,230,110/7,4);砂轮中心与滚轮中心水平重合时Z轴坐标	
 	;;定义按键
 	HS1=($85001,ac7,se1)
 	HS2=($85003,ac7,se1)
@@ -117,42 +146,53 @@
 		EXIT
 	END_PRESS
 	;;CHANGE事件
-		CHANGE( )
+		CHANGE()
 			CALL("UP1")	
 		END_CHANGE
-
+		CHANGE(VAR_GL0);;修整基准
+			CALL("UP2")	
+			CALL("UP3")	
+		END_CHANGE
+		CHANGE(VAR_GL1);;新砂轮对出的接触点坐标
+			CALL("UP2")	
+		END_CHANGE
+		CHANGE(VAR_SL0);;新旧砂轮
+			CALL("UP2")	
+		END_CHANGE
+		CHANGE(GUANCHA_0);;修整接触点
+			CALL("UP3")	
+		END_CHANGE
 		SUB(UP1)
-		;;当前砂轮直径是否可改
+		;;计算修砂轮转速
+			VAR_SL11=VAR_SL10*60000/(PI*VAR_SL9)
+			VAR_GL5=VAR_GL4*60000/(PI*VAR_GL3)
+		;;当前接触位置是否可改
 			IF SWITCH_0.VAL==0
-				VAR_SL9.WR=1
+				GUANCHA_0.WR=1
 			ELSE
-				VAR_SL9.WR=2
+				GUANCHA_0.WR=2
 			ENDIF
-		;;计算砂轮直径	
-			VAR_SL8.VAL=2*ABS(VAR_GL0.VAL-VAR_GL1.VAL)
-			IF VAR_SL0.VAL==0
-				VAR_SL9.VAL=VAR_SL8.VAL
-			ENDIF
-		;;依据当前砂轮直径计算对应修整接触点
-			GUANCHA_0.VAL=VAR_GL0.VAL-VAR_SL9.VAL/2
-		;;计算修整轮,砂轮转速
-			VAR_SL11=VAR_SL10*60000/(PI*VAR_SL9);修整时砂轮转速计算
-			VAR_GL5=VAR_GL4*60000/(PI*VAR_GL3);修整时砂轮转速计算
-		;;修整基准是否可更该
+		;;修整基准参数是否可更改
 			IF SWITCH_1.VAL==0
 				VAR_GL0.WR=1
 				VAR_GL1.WR=1
-				VAR_GL2.WR=1
 				VAR_GL6.WR=1
 			ELSE
 				VAR_GL0.WR=2
 				VAR_GL1.WR=2
-				VAR_GL2.WR=2
 				VAR_GL6.WR=2
 			ENDIF
-		
 		END_SUB
-
+		SUB(UP2)
+			VAR_SL8.VAL=2*(VAR_GL0.VAL-VAR_GL1.VAL);计算新砂轮直径
+			IF VAR_SL0.VAL==0;新砂轮时当前砂轮直径等于新砂轮直径,计算修整接触点
+				VAR_SL9.VAL=VAR_SL8.VAL
+				GUANCHA_0.VAL=VAR_GL0.VAL-VAR_SL8.VAL/2
+			ENDIF
+		END_SUB
+		SUB(UP3)
+			VAR_SL9.VAL=2*(VAR_GL0.VAL-GUANCHA_0);计算当前砂轮直径
+		END_SUB
 //END
 
 ;;;;;;;;;;;;;;;;;;;修整界面,用于内螺纹成型轮向后修整;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -167,9 +207,9 @@
 		DEF VAR_SL6=(R/0,1000//$85307,$85307,,$85045/WR2//"/NC/_N_NC_GD2_ACX/DRESSER[16]"/355,140,110/440,140,110/7,4);精修速度
 
 		DEF VAR_SL8=(R/0,1000//$85319,$85319,,$85043/WR1//"/NC/_N_NC_GD2_ACX/DRESSER[1]"/340,270,110/440,270,110/7,4);新砂轮直径
-		DEF VAR_SL9=(R/0,1000//$85320,$85320,,$85043/WR2//"/NC/_N_NC_GD2_ACX/DRESSER[2]"/325,290,110/440,290,110/7,4);砂轮当前直径
-		DEF SWITCH_0=(I/*0=$85059,1=$85058/0/$85063,$85063,,/WR2//"/NC/_N_NC_GD2_ACX/SWITCH[1]"/0,0,0/535,290,20/);参数锁定开关
-		DEF GUANCHA_0=(R/0,1000//$85322,$85321,,$85043/WR1//"/NC/_N_NC_GD2_ACX/DRESSER[27]"/325,310,110/440,310,110/7,4);观察参数(当前砂轮直径对应的修整接触点坐标)
+		DEF VAR_SL9=(R/0,1000//$85320,$85320,,$85043/WR1//"/NC/_N_NC_GD2_ACX/DRESSER[2]"/325,290,110/440,290,110/7,4);砂轮当前直径
+		DEF SWITCH_0=(I/*0=$85059,1=$85058/0/$85063,$85063,,/WR2//"/NC/_N_NC_GD2_ACX/SWITCH[1]"/0,0,0/535,310,20/);参数锁定开关
+		DEF GUANCHA_0=(R///$85322,$85321,,$85043/WR1/"panel_2_3_2_chs.png"/"/NC/_N_NC_GD2_ACX/POSITION[1]"/325,310,110/440,310,110/7,4);观察参数(当前砂轮直径对应的修整接触点坐标)
 		DEF VAR_SL10=(R/0,80//$85317,$85317,,$85046/WR2//"/NC/_N_NC_GD2_ACX/DRESSER[18]"/340,250,110/440,250,110/7,4);砂轮线速度
 		DEF VAR_SL11=(R2///$85221,$85221,,$85044/WR1//"/NC/_N_NC_GD2_ACX/DRESSER[26]"/355,230,110/440,230,110/7,4);修整时砂轮转速
 		DEF VAR_SL12=(R2///$85304,$85304,,$85044/WR2//"/NC/_N_NC_GD2_ACX/DRESSER[3]"/295,330,130/440,330,130/7,4);最大砂轮磨削直径
@@ -177,71 +217,87 @@
 	;;滚轮参数
 		DEF SWITCH_1=(I/*0=$85059,1=$85058/0/$85063,$85063,,/WR2//"/NC/_N_NC_GD2_ACX/SWITCH[2]"/0,0,0/10,250,20/);参数锁定开关
 		DEF VAR_GL0=(R///$85627,$85601,,$85043/WR2/"panel_2_2_chs.png"/"/NC/_N_NC_GD2_ACX/POSITION[6]"/40,250,110/120,250,110/7,4);修整接触位置基准(砂轮主轴中心与滚轮圆弧顶部(金刚笔尖)重合时X(V)轴坐标)
-		DEF VAR_GL1=(R///$85626,$85602,,$85043/WR2/"panel_2_3_chs.png"/"/NC/_N_NC_GD2_ACX/DRESSER[25]"/40,270,110/120,270,110/7,4);手动对出的新砂轮触碰滚轮时X轴坐标
+		DEF VAR_GL1=(R///$85626,$85602,,$85043/WR2/"panel_2_3_1_chs.png"/"/NC/_N_NC_GD2_ACX/DRESSER[25]"/40,270,110/120,270,110/7,4);手动对出的新砂轮触碰滚轮时X轴坐标
 		DEF VAR_GL2=(R/0,5//$85604,$85604,,$85047/WR2/"panel_2_4_chs.png"/"/NC/_N_NC_GD2_ACX/DRESSER[17]"/40,290,110/120,290,110/7,4);滚压轮停留时间
 		DEF VAR_GL3=(R/0,500//$85620,$85620,,$85043/WR2/"panel_2_5_chs.png"/"/NC/_N_NC_GD2_ACX/DRESSER[9]"/25,310,110/120,310,110/7,4);修整轮直径
 		DEF VAR_GL4=(R/0,60//$85621,$85621,,$85046/WR2/"panel_2_6_chs.png"/"/NC/_N_NC_GD2_ACX/DRESSER[10]"/10,350,110/120,350,110/7,4);修整轮线速度
 		DEF VAR_GL5=(R2///$85600,$85600,,$85044/WR1//"$R[297]"/25,330,110/120,330,110/7,4);修整轮转速
 	;;定义按键
-		HS1=($85015,ac7,se1)
-		HS2=($85001,ac7,se1)
-		HS3=($85003,ac7,se1)
-		HS4=($85002,ac7,se1)
-		HS5=($85010,ac7,se1)
-		VS8=($85005,ac7,se1)
-		PRESS(HS1)
-			LM("Mask0","guancha.com",0);观察界面
-		END_PRESS
-		PRESS(HS2)
-			LM("Mask0","moxue.com",0);磨削界面
-		END_PRESS
-		PRESS(HS3)
-			LM("Mask0","xiuzheng.com",0);修整界面
-		END_PRESS
-		PRESS(HS4)
-			LM("Mask0","gongyi.com",0);修整界面
-		END_PRESS
-		PRESS(HS5)
-			LM("Mask0","duidao.com",0);修整界面
-		END_PRESS
-		PRESS(VS8)
-			EXIT
-		END_PRESS
+	HS1=($85001,ac7,se1)
+	HS2=($85003,ac7,se1)
+	HS3=($85002,ac7,se1)
+	HS4=($85010,ac7,se1)
+	VS8=($85005,ac7,se1)
+	PRESS(HS1)
+		LM("Mask0","moxue.com",0);磨削界面
+	END_PRESS
+	PRESS(HS2)
+		LM("Mask0","xiuzheng.com",0);修整界面
+	END_PRESS
+	PRESS(HS3)
+		LM("Mask0","gongyi.com",0);修整界面
+	END_PRESS
+	PRESS(HS4)
+		LM("Mask0","duidao.com",0);修整界面
+	END_PRESS
+	PRESS(VS8)
+		EXIT
+	END_PRESS
 	;;CHANGE事件
-		CHANGE( )
+		CHANGE()
 			CALL("UP1")	
 		END_CHANGE
-
+		CHANGE(VAR_GL0);;修整基准
+			CALL("UP2")	
+			CALL("UP3")	
+		END_CHANGE
+		CHANGE(VAR_GL1);;新砂轮对出的接触点坐标
+			CALL("UP2")	
+		END_CHANGE
+		CHANGE(VAR_SL0);;新旧砂轮
+			CALL("UP2")	
+		END_CHANGE
+		CHANGE(GUANCHA_0);;修整接触点
+			CALL("UP3")	
+		END_CHANGE
 		SUB(UP1)
-		;;当前砂轮直径是否可改
+		;;计算修砂轮转速
+			VAR_SL11=VAR_SL10*60000/(PI*VAR_SL9)
+			VAR_GL5=VAR_GL4*60000/(PI*VAR_GL3)
+		;;当前接触位置是否可改
 			IF SWITCH_0.VAL==0
-				VAR_SL9.WR=1
+				GUANCHA_0.WR=1
 			ELSE
-				VAR_SL9.WR=2
+				GUANCHA_0.WR=2
 			ENDIF
-		;;计算砂轮直径	
-			VAR_SL8.VAL=2*ABS(VAR_GL0.VAL-VAR_GL1.VAL)
-			IF VAR_SL0.VAL==0
-				VAR_SL9.VAL=VAR_SL8.VAL
-			ENDIF
-		;;依据当前砂轮直径计算对应修整接触点
-			GUANCHA_0.VAL=VAR_GL0.VAL+VAR_SL9.VAL/2
-		;;计算修整轮,砂轮转速
-			VAR_SL11=VAR_SL10*60000/(PI*VAR_SL9);修整时砂轮转速计算
-			VAR_GL5=VAR_GL4*60000/(PI*VAR_GL3);修整时砂轮转速计算
-		;;修整基准是否可更该
+		;;修整基准参数是否可更改
 			IF SWITCH_1.VAL==0
 				VAR_GL0.WR=1
 				VAR_GL1.WR=1
-				VAR_GL2.WR=1
+				VAR_GL6.WR=1
 			ELSE
 				VAR_GL0.WR=2
 				VAR_GL1.WR=2
-				VAR_GL2.WR=2
+				VAR_GL6.WR=2
 			ENDIF
+		END_SUB
+		SUB(UP2)
+			VAR_SL8.VAL=2*(VAR_GL1.VAL-VAR_GL0.VAL);计算新砂轮直径
+			IF VAR_SL0.VAL==0;新砂轮时当前砂轮直径等于新砂轮直径,计算修整接触点
+				VAR_SL9.VAL=VAR_SL8.VAL
+				GUANCHA_0.VAL=VAR_GL0.VAL+VAR_SL8.VAL/2
+			ENDIF
+		END_SUB
+		SUB(UP3)
+			VAR_SL9.VAL=2*(GUANCHA_0-VAR_GL0.VAL);计算当前砂轮直径
 		END_SUB
 
 //END
+
+
+
+
+
 
 
 
