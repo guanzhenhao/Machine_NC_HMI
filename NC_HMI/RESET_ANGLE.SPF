@@ -3,7 +3,7 @@ PROC RESET_ANGLE DISPLOF
 ;;螺旋升角复位
 ;;***************************
 
-IF INI[16]==1
+IF GRIND[5]==1
 	IF TRUNC($AA_IM[A]*1000)<>0
 		M73;液压开
 		G4 F1

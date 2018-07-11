@@ -41,7 +41,7 @@
 			LM("Mask0","duidao.com",0);修整界面
 		END_PRESS
 		PRESS(VS1)
-			LM("Mask0","chabu.com",0);修整界面
+			LM("Mask0","gunlun.com",0);修整界面
 		END_PRESS
 		PRESS(VS8)
 			EXIT
@@ -293,6 +293,10 @@
 		END_SUB
 
 //END
+
+
+
+
 
 
 

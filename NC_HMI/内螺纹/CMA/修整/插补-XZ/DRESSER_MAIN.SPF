@@ -21,18 +21,17 @@ WHILE((DRESSER[1]-2*(DR0*DR1+DR3*DR4))<=DRESSER[3]);判断砂轮是否可用
     MSG("砂轮过小，请跟换砂轮!!!")
     M0
 ENDWHILE
+IF DRESSER[7]==0;如果是新砂轮，砂轮当前直径增加一个砂轮宽度(抬刀半个砂轮宽度)
+	DRESSER[1]=DRESSER[1]+DRESSER[27]
+ENDIF
 POSITION[20]=POSITION[5]-DRESSER[1]/2;依据当前砂轮直径,计算初始修整接触点坐标
 POSITION[0]=POSITION[20]
-
-IF DRESSER[32]>=DRESSER[33]
-    DRESSER[33]=DRESSER[32]
-ELSE
-    DRESSER[32]=DRESSER[33]
-ENDIF
+DRESSER[32]=POSITION[6]+DRESSER[28];修左侧砂轮时滚轮圆弧中心与砂轮中心重合时坐标
+DRESSER[33]=POSITION[6]-DRESSER[28];修右侧砂轮时滚轮圆弧中心与砂轮中心重合时坐标
 
 IF(DRESSER[1]>(DRESSER[2]+40*DR4));当前砂轮直径>最大砂轮直径+40*DR4
     DR0=ROUNDUP((DRESSER[1]-(DRESSER[2]+40*DR4))/(2*DR1));粗修次数
-    DR3=20;粗修次数
+    DR3=20;精修次数
 ENDIF
 IF((DRESSER[2]+40*DR4)>DRESSER[1])AND(DRESSER[1]>DRESSER[2]);最大砂轮直径+40*DR4>当前砂轮直径>最大砂轮直径大
     DR0=0
