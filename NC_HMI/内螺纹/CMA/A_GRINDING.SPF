@@ -2,7 +2,6 @@ PROC A_GRINDING DISPLOF
 ;;**********程序功能**********
 ;磨削主程序
 ;;***************************
-GRIND[22]=0
 IF $A_DBB[0]==1;修整键点亮标记
     GRIND[22]=1
 ELSE
@@ -17,6 +16,7 @@ ENDIF
 POSITION[11]=POSITION[10];磨削起点赋值
 POSITION[12]=POSITION[9];磨削终点赋值
 POSITION[14]=(POSITION[11]+POSITION[12])/2;磨削中点
+GRIND[23]=-GRIND[0]*(GRIND[8]+GRIND[9]/60+GRIND[10]/3600);计算升角值
 IF((GRIND[13]==1)AND(GRIND[15]<>0));有锥度且锥度分母不为0
     GRIND[16]=GRIND[14]/(GRIND[15]*2)
 ELSE

@@ -3,7 +3,7 @@ PROC RESET_ANGLE DISPLOF
 ;;螺旋升角复位
 ;;***************************
 
-IF GRIND[5]==1
+IF GRIND[21]==1
 	IF TRUNC($AA_IM[A]*1000)<>0
 		M73;液压开
 		G4 F1
@@ -13,7 +13,7 @@ IF GRIND[5]==1
 		ENDWHILE
 		G4 F1
 		MSG("螺旋升角置零中")
-		G90 G01 A=-1*GRIND[0] F=100
+		G90 G01 A=-1 F=100
 		G4 F0.5
 		G90 G01 A=0 F=100
 		STOPRE
