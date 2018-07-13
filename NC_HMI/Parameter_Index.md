@@ -233,6 +233,7 @@
 |PROCESSER[107]|当前磨削总量
 |PROCESSER[108]|磨削工件计数
 |PROCESSER[109]|磨削几件后修砂轮
+|PROCESSER[110]|工艺总修整量
 |**对刀参数(TOOL_SET)**|
 |TOOL_SET[0]|磨削起始角度
 |TOOL_SET[1]|自动对刀调整(头架向正向移动为正值，反之为负值)
