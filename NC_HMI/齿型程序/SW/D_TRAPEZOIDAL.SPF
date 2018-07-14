@@ -1,4 +1,4 @@
-PROC TRAPEZOIDAL DISPLOF
+PROC D_TRAPEZOIDAL DISPLOF
 ;;**********程序功能**********
 ;;梯形
 ;;***************************
