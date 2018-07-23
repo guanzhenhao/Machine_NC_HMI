@@ -4,7 +4,7 @@
 	HS7=($85000,ac7,se1)
 	VS1=($85006,ac7,se1) 	
 	PRESS(HS7)
-		LM("Mask0","moxue.com",0);磨削界面加载
+		LM("Mask0","hj_moxue.com",0);磨削界面加载
 	END_PRESS
 	PRESS(VS1)
 		LM("Mask0")

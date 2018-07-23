@@ -16,18 +16,19 @@
 	HS4=($85010,ac7,se1)
 	VS8=($85005,ac7,se1)
 	PRESS(HS1)
-		LM("Mask0","moxue.com",0);磨削界面
+		LM("Mask0","hj_moxue.com",0);磨削界面
 	END_PRESS
 	PRESS(HS2)
-		LM("Mask0","xiuzheng.com",0);修整界面
+		LM("Mask0","hj_xiuzheng.com",0);修整界面
 	END_PRESS
 	PRESS(HS3)
-		LM("Mask0","gongyi.com",0);修整界面
+		LM("Mask0","hj_gongyi.com",0);修整界面
 	END_PRESS
 	PRESS(HS4)
-		LM("Mask0","duidao.com",0);修整界面
+		LM("Mask0","hj_duidao.com",0);修整界面
 	END_PRESS
 	PRESS(VS8)
 		EXIT
 	END_PRESS
 //END
+

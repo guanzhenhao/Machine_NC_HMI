@@ -1,10 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;MASK9:齿形参数_双圆弧:panel_9:;;;;;;;;;;;;;;;;;;;
-//M(Mask9/$85385/"panel_9_1_chs.png"/)
-
-	;DEF VAR0=(R/0,200//$85430,$85430,,$85043/WR2/"panel_9_1_chs.png"/"/NC/_N_NC_GD2_ACX/DARC[2]"/330,30,110/440,30,110/);外圆直径
-	;DEF VAR1=(R/0,200//$85431,$85431,,$85043/WR2/"panel_9_2_chs.png"/"/NC/_N_NC_GD2_ACX/DARC[3]"/330,60,110/440,60,110/);公称直径
-
-	;DEF VAR2=(R/0,50//$85440,$85440,,$85043/WR2/"panel_9_3_chs.png"/"/NC/_N_NC_GD2_ACX/DARC[12]"/330,80,110/440,80,110/);过渡圆弧半径
+//M(Mask0/$85385/"panel_9_1_chs.png"/)
 
 	DEF VAR3=(R/0,90//$85433,$85433,,$85042/WR2/"panel_9_4_chs.png"/"/NC/_N_NC_GD2_ACX/DARC[5]"/350,30,125/470,30,110/);接触角
 	DEF VAR4=(R/0,50//$85432,$85432,,$85043/WR2/"panel_9_5_chs.png"/"/NC/_N_NC_GD2_ACX/DARC[4]"/350,50,125/470,50,110/);钢球直径
@@ -44,81 +39,46 @@
 	DEF QCHECK=(I////WR4//"/Plc/Q113.5"/0,0,0/0,0,0);循环启动Q点检测
 	DEF WARE=(I////WR4//"/NC/_N_NC_GD2_ACX/DRESSER[1]"/0,0,0/0,0,0/);修整器
 
-	HS1=($85380,ac7,se2);"单滚轮"
-	HS2=($85381,ac7,se2);"双滚轮"
-	HS3=($85382,ac7,se2);"方滚轮"
-	HS4=($85379,ac7,se2);"滚压轮"
-	HS5=($85378,ac7,se2);"摆缸"
-
-	VS1=($85383,ac7,se1);"三角"
-	VS2=($85384,ac7,se1);"梯形"
-	VS3=($85385,ac7,se3);"双圆弧"
-	VS7=($85457,ac7,se1);"调整量清除"
-	VS8=($85386,ac7,se1);"返回"
-
-	PRESS(HS1)
-		IF WARE.VAL==0
-			LM("MASK4")
-		ELSE
-			IF WARE.VAL==1
-				LM("MASK12")
+	;;按键定义
+		HS1=($85001,ac7,se1)
+		HS2=($85003,ac7,se1)
+		HS3=($85002,ac7,se1)
+		HS4=($85010,ac7,se1)
+		VS1=($85023,ac7,se1)
+		VS7=($85457,ac7,se1);"调整量清除"
+		VS8=($85005,ac7,se1)
+		PRESS(HS1)
+			LM("Mask0","hj_moxue.com",0);磨削界面
+		END_PRESS
+		PRESS(HS2)
+			LM("Mask0","hj_xiuzheng.com",0);修整界面
+		END_PRESS
+		PRESS(HS3)
+			LM("Mask0","hj_gongyi.com",0);修整界面
+		END_PRESS
+		PRESS(HS4)
+			LM("Mask0","hj_duidao.com",0);修整界面
+		END_PRESS
+		PRESS(VS1)
+			IF (VAR23.VAL==0)OR(VAR23==1)
+				LM("Mask0","hj_trap.com",0);修整界面
 			ENDIF
-		ENDIF
-	END_PRESS
-
-	PRESS(HS2)
-		IF WARE.VAL==0
-			LM("MASK5")
-		ELSE
-			IF WARE.VAL==1
-				LM("MASK13")
+			IF VAR23.VAL==2
+				LM("Mask0","hj_darc.com",0);修整界面
 			ENDIF
-		ENDIF
-	END_PRESS
+		END_PRESS
+		PRESS(VS7)
+			VAR7.VAL=0
+			VAR8.VAL=0
+			VAR15.VAL=0
+			VAR16.VAL=0
+			VAR17.VAL=0
+			VAR18.VAL=0
+		END_PRESS
+		PRESS(VS8)
+			EXIT
+		END_PRESS
 
-	PRESS(HS3)
-		IF WARE.VAL==0
-			LM("MASK6")
-		ELSE
-			IF WARE.VAL==1
-				LM("MASK14")
-			ENDIF
-		ENDIF
-	END_PRESS
-
-	PRESS(HS4)
-		LM("MASK11")
-	END_PRESS
-
-	PRESS(HS5)
-		LM("MASK15")
-	END_PRESS
-
-	PRESS(VS1)
-		LM("MASK7")
-	END_PRESS
-
-	PRESS(VS2)
-		LM("MASK8")
-	END_PRESS
-
-	PRESS(VS3)
-		LM("MASK9")
-	END_PRESS
-	
-	PRESS(VS7)
-		VAR7.VAL=0
-		VAR8.VAL=0
-		VAR15.VAL=0
-		VAR16.VAL=0
-		VAR17.VAL=0
-		VAR18.VAL=0
-	END_PRESS
-
-	PRESS(VS8)
-		LM("MASK3")
-	END_PRESS
-	
 	CHANGE(VAR3)
 		call("UP2")
 	END_CHANGE	

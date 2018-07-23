@@ -15,7 +15,7 @@
 	DEF VAR_GRD5=(R///$85109,$85109,$85043,/WR2/"panel_1_6_chs.png"/"/NC/_N_NC_GD2_ACX/POSITION[11]"/380,110,190/460,110,70/7,4);工件右端
 	DEF VAR_GRD6=(R///$85111,$85111,$85043,/WR2/"panel_1_7_chs.png"/"/NC/_N_NC_GD2_ACX/POSITION[14]"/380,130,190/460,130,70/7,4);工件中心
 ;;锥度
-	DEF VAR_GRD7=(I/*0=$85014,1=$85013/0/$85159,$85159,,/WR2/"panel_1_8_chs.png"/"/NC/_N_NC_GD2_ACX/GRIND[14]"/360,230,80/405,230,30/);是否有锥度
+	DEF VAR_GRD7=(I/*0=$85014,1=$85013//$85159,$85159,,/WR2/"panel_1_8_chs.png"/"/NC/_N_NC_GD2_ACX/GRIND[14]"/360,230,80/405,230,30/);是否有锥度
 	DEF VAR_GRD8=(I/-10,10//$85160,,,$85052/WR2/"panel_1_8_chs.png"/"/NC/_N_NC_GD2_ACX/GRIND[15]"/0,230,0/460,230,75/7,4);锥度分子,默认内螺纹大头往小头磨,外螺纹小头往大头磨
 	DEF VAR_GRD9=(I/0,800//$85161,,,/WR2/"panel_1_8_chs.png"/"/NC/_N_NC_GD2_ACX/GRIND[16]"/0,230,0/495,230,20/7,4);锥度分母
 ;;自动螺旋升角
@@ -45,16 +45,16 @@
 	HS4=($85010,ac7,se1)
 	VS8=($85005,ac7,se1)
 	PRESS(HS1)
-		LM("Mask0","moxue.com",0);磨削界面
+		LM("Mask0","hj_moxue.com",0);磨削界面
 	END_PRESS
 	PRESS(HS2)
-		LM("Mask0","xiuzheng.com",0);修整界面
+		LM("Mask0","hj_xiuzheng.com",0);修整界面
 	END_PRESS
 	PRESS(HS3)
-		LM("Mask0","gongyi.com",0);修整界面
+		LM("Mask0","hj_gongyi.com",0);修整界面
 	END_PRESS
 	PRESS(HS4)
-		LM("Mask0","duidao.com",0);修整界面
+		LM("Mask0","hj_duidao.com",0);修整界面
 	END_PRESS
 	PRESS(VS8)
 		EXIT
