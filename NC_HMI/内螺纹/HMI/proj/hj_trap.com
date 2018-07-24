@@ -28,10 +28,10 @@
 
 	;;按键定义
 		HS1=($85001,ac7,se1)
-		HS2=($85003,ac7,se1)
+		HS2=($85003,ac7,se3)
 		HS3=($85002,ac7,se1)
 		HS4=($85010,ac7,se1)
-		VS1=($85023,ac7,se1)
+		VS1=($85023,ac7,se3)
 		VS8=($85005,ac7,se1)
 		PRESS(HS1)
 			LM("Mask0","hj_moxue.com",0);磨削界面

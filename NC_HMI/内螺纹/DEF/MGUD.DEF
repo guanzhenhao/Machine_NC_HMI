@@ -1,6 +1,8 @@
 ;**********程序功能**********
 ;自定义全局变量
 ;***************************
+DEF NCK STRING[1] AXIS_VER;垂直轴
+DEF NCK STRING[1] AXIS_HORI;水平轴
 ;机床配置参数
 DEF NCK REAL CONFIG[10]
 ;轴位置参数

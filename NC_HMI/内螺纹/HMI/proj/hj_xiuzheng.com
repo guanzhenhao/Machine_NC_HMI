@@ -34,7 +34,7 @@
 		DEF VAR_GL7=(R/0,60//$85621,$85621,,$85046/WR2/"panel_2_6_chs.png"/"/NC/_N_NC_GD2_ACX/DRESSER[10]"/325,225,110/440,225,110/7,4);修整轮线速度
 	;;定义按键		
 		HS1=($85001,ac7,se1)
-		HS2=($85003,ac7,se1)
+		HS2=($85003,ac7,se3)
 		HS3=($85002,ac7,se1)
 		HS4=($85010,ac7,se1)
 		VS1=($85023,ac7,se1)
@@ -56,16 +56,38 @@
 				LM("Mask0","hj_trap.com",0);修整界面
 			ENDIF
 			IF VAR_SL0_0.VAL==2
-				LM("Mask0","hj_darc",0);修整界面
+				LM("Mask0","hj_darc.com",0);修整界面
 			ENDIF
 		END_PRESS
 		PRESS(VS8)
 			EXIT
 		END_PRESS
 	;;CHANGE事件
-		CHANGE()
+		CHANGE(VAR_SL9)
 			CALL("UP1")	
 		END_CHANGE
+		CHANGE(VAR_SL10)
+			CALL("UP1")	
+		END_CHANGE
+		CHANGE(VAR_SL11)
+			CALL("UP1")	
+		END_CHANGE
+		CHANGE(VAR_GL5)
+			CALL("UP5")	
+		END_CHANGE
+		CHANGE(VAR_GL6)
+			CALL("UP5")	
+		END_CHANGE
+		CHANGE(VAR_GL7)
+			CALL("UP5")	
+		END_CHANGE
+		CHANGE(SWITCH_0)
+			CALL("UP6")	
+		END_CHANGE
+		CHANGE(SWITCH_1)
+			CALL("UP7")	
+		END_CHANGE
+
 		CHANGE(VAR_JZ1);;修整基准
 			CALL("UP2")	
 			CALL("UP3")	
@@ -82,27 +104,9 @@
 		CHANGE(VAR_GL3);;修整接触点
 			CALL("UP4")	
 		END_CHANGE
-		SUB(UP1)
-		;;计算修砂轮转速
+
+		SUB(UP1);;计算修砂轮转速
 			VAR_SL11.VAL=VAR_SL10.VAL*60000/(PI*VAR_SL9.VAL)
-		;;计算修整轮转速
-			VAR_GL6.VAL=VAR_GL7.VAL*60000/(PI*VAR_GL5.VAL)
-		;;当前接触位置是否可改
-			IF SWITCH_0.VAL==0
-				GUANCHA_0.WR=1
-			ELSE
-				GUANCHA_0.WR=2
-			ENDIF
-		;;修整基准参数是否可更改
-			IF SWITCH_1.VAL==0
-				VAR_JZ1.WR=1
-				VAR_JZ2.WR=1
-				VAR_JZ0.WR=1
-			ELSE
-				VAR_JZ1.WR=2
-				VAR_JZ2.WR=2
-				VAR_JZ0.WR=2
-			ENDIF
 		END_SUB
 		SUB(UP2)
 			VAR_SL8.VAL=2*(VAR_JZ1.VAL-VAR_JZ2.VAL);计算新砂轮直径
@@ -125,6 +129,27 @@
 				VAR_GL2.WR=2
 				VAR_GL1_1.WR=4
 				VAR_GL2_1.WR=4
+			ENDIF
+		END_SUB
+		SUB(UP5);;计算修整轮转速
+			VAR_GL6.VAL=VAR_GL7.VAL*60000/(PI*VAR_GL5.VAL)
+		END_SUB
+		SUB(UP6);;当前接触位置是否可改
+			IF SWITCH_0.VAL==0
+				GUANCHA_0.WR=1
+			ELSE
+				GUANCHA_0.WR=2
+			ENDIF
+		END_SUB
+		SUB(UP7);;修整基准参数是否可更改
+			IF SWITCH_1.VAL==0
+				VAR_JZ1.WR=1
+				VAR_JZ2.WR=1
+				VAR_JZ0.WR=1
+			ELSE
+				VAR_JZ1.WR=2
+				VAR_JZ2.WR=2
+				VAR_JZ0.WR=2
 			ENDIF
 		END_SUB
 //END
@@ -159,7 +184,7 @@
 		DEF VAR_GL6=(R///$85607,$85608,,$85043/WR2/"panel_2_1_chs.png"/"/NC/_N_NC_GD2_ACX/POSITION[7]"/40,230,110/120,230,110/7,4);砂轮中心与滚轮中心水平重合时Z轴坐标	
 	;;定义按键
 	HS1=($85001,ac7,se1)
-	HS2=($85003,ac7,se1)
+	HS2=($85003,ac7,se3)
 	HS3=($85002,ac7,se1)
 	HS4=($85010,ac7,se1)
 	VS8=($85005,ac7,se1)
@@ -179,8 +204,29 @@
 		EXIT
 	END_PRESS
 	;;CHANGE事件
-		CHANGE()
+		CHANGE(VAR_SL9)
 			CALL("UP1")	
+		END_CHANGE
+		CHANGE(VAR_SL10)
+			CALL("UP1")	
+		END_CHANGE
+		CHANGE(VAR_SL11)
+			CALL("UP1")	
+		END_CHANGE
+		CHANGE(VAR_GL3)
+			CALL("UP4")	
+		END_CHANGE
+		CHANGE(VAR_GL4)
+			CALL("UP4")	
+		END_CHANGE
+		CHANGE(VAR_GL5)
+			CALL("UP4")	
+		END_CHANGE
+		CHANGE(SWITCH_0)
+			CALL("UP5")	
+		END_CHANGE
+		CHANGE(SWITCH_1)
+			CALL("UP6")	
 		END_CHANGE
 		CHANGE(VAR_GL0);;修整基准
 			CALL("UP2")	
@@ -196,25 +242,8 @@
 			CALL("UP3")	
 		END_CHANGE
 		SUB(UP1)
-		;;计算修砂轮转速
 			VAR_SL11=VAR_SL10*60000/(PI*VAR_SL9)
-			VAR_GL5=VAR_GL4*60000/(PI*VAR_GL3)
-		;;当前接触位置是否可改
-			IF SWITCH_0.VAL==0
-				GUANCHA_0.WR=1
-			ELSE
-				GUANCHA_0.WR=2
-			ENDIF
-		;;修整基准参数是否可更改
-			IF SWITCH_1.VAL==0
-				VAR_GL0.WR=1
-				VAR_GL1.WR=1
-				VAR_GL6.WR=1
-			ELSE
-				VAR_GL0.WR=2
-				VAR_GL1.WR=2
-				VAR_GL6.WR=2
-			ENDIF
+		END_SUB
 		END_SUB
 		SUB(UP2)
 			VAR_SL8.VAL=2*(VAR_GL0.VAL-VAR_GL1.VAL);计算新砂轮直径
@@ -225,6 +254,29 @@
 		END_SUB
 		SUB(UP3)
 			VAR_SL9.VAL=2*(VAR_GL0.VAL-GUANCHA_0);计算当前砂轮直径
+		END_SUB
+		SUB(UP4)
+			VAR_GL5=VAR_GL4*60000/(PI*VAR_GL3)
+		END_SUB
+		SUB(UP5)
+		;;当前接触位置是否可改
+			IF SWITCH_0.VAL==0
+				GUANCHA_0.WR=1
+			ELSE
+				GUANCHA_0.WR=2
+			ENDIF
+		END_SUB
+		SUB(UP6)
+		;;修整基准参数是否可更改
+			IF SWITCH_1.VAL==0
+				VAR_GL0.WR=1
+				VAR_GL1.WR=1
+				VAR_GL6.WR=1
+			ELSE
+				VAR_GL0.WR=2
+				VAR_GL1.WR=2
+				VAR_GL6.WR=2
+			ENDIF
 		END_SUB
 //END
 
@@ -258,7 +310,7 @@
 		;DEF VAR_GL6=(R///$85607,$85608,,$85043/WR2/"panel_2_1_chs.png"/"/NC/_N_NC_GD2_ACX/POSITION[7]"/40,230,110/120,230,110/7,4);砂轮中心与滚轮中心水平重合时Z轴坐标
 	;;定义按键
 	HS1=($85001,ac7,se1)
-	HS2=($85003,ac7,se1)
+	HS2=($85003,ac7,se3)
 	HS3=($85002,ac7,se1)
 	HS4=($85010,ac7,se1)
 	VS8=($85005,ac7,se1)
@@ -278,8 +330,29 @@
 		EXIT
 	END_PRESS
 	;;CHANGE事件
-		CHANGE()
+		CHANGE(VAR_SL9)
 			CALL("UP1")	
+		END_CHANGE
+		CHANGE(VAR_SL10)
+			CALL("UP1")	
+		END_CHANGE
+		CHANGE(VAR_SL11)
+			CALL("UP1")	
+		END_CHANGE
+		CHANGE(VAR_GL3)
+			CALL("UP4")	
+		END_CHANGE
+		CHANGE(VAR_GL4)
+			CALL("UP4")	
+		END_CHANGE
+		CHANGE(VAR_GL5)
+			CALL("UP4")	
+		END_CHANGE
+		CHANGE(SWITCH_0)
+			CALL("UP5")	
+		END_CHANGE
+		CHANGE(SWITCH_1)
+			CALL("UP6")	
 		END_CHANGE
 		CHANGE(VAR_GL0);;修整基准
 			CALL("UP2")	
@@ -294,26 +367,9 @@
 		CHANGE(GUANCHA_0);;修整接触点
 			CALL("UP3")	
 		END_CHANGE
-		SUB(UP1)
-		;;计算修砂轮转速
+
+		SUB(UP1);;计算修砂轮转速
 			VAR_SL11=VAR_SL10*60000/(PI*VAR_SL9)
-			VAR_GL5=VAR_GL4*60000/(PI*VAR_GL3)
-		;;当前接触位置是否可改
-			IF SWITCH_0.VAL==0
-				GUANCHA_0.WR=1
-			ELSE
-				GUANCHA_0.WR=2
-			ENDIF
-		;;修整基准参数是否可更改
-			IF SWITCH_1.VAL==0
-				VAR_GL0.WR=1
-				VAR_GL1.WR=1
-				VAR_GL6.WR=1
-			ELSE
-				VAR_GL0.WR=2
-				VAR_GL1.WR=2
-				VAR_GL6.WR=2
-			ENDIF
 		END_SUB
 		SUB(UP2)
 			VAR_SL8.VAL=2*(VAR_GL1.VAL-VAR_GL0.VAL);计算新砂轮直径
@@ -324,6 +380,29 @@
 		END_SUB
 		SUB(UP3)
 			VAR_SL9.VAL=2*(GUANCHA_0-VAR_GL0.VAL);计算当前砂轮直径
+		END_SUB
+		SUB(UP4)
+			VAR_GL5=VAR_GL4*60000/(PI*VAR_GL3)
+		END_SUB
+		SUB(5)
+		;;当前接触位置是否可改
+			IF SWITCH_0.VAL==0
+				GUANCHA_0.WR=1
+			ELSE
+				GUANCHA_0.WR=2
+			ENDIF
+		END_SUB
+		SUB(6)
+		;;修整基准参数是否可更改
+			IF SWITCH_1.VAL==0
+				VAR_GL0.WR=1
+				VAR_GL1.WR=1
+				VAR_GL6.WR=1
+			ELSE
+				VAR_GL0.WR=2
+				VAR_GL1.WR=2
+				VAR_GL6.WR=2
+			ENDIF
 		END_SUB
 
 //END
