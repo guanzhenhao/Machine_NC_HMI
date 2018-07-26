@@ -1,4 +1,4 @@
-PROC RESET_ANGLE DISPLOF
+PROC RESET_ANGLE DISPLON
 ;;**********程序功能**********
 ;;螺旋升角复位
 ;;***************************
@@ -8,9 +8,9 @@ IF GRIND[21]==1
 		M73;液压开
 		G4 F1
 		M35;松开
-		WHILE($A_DBB[14]==0);未松开
-			G4 F0.2
-		ENDWHILE
+		;WHILE($A_DBB[14]==0);未松开
+			;G4 F0.2
+		;ENDWHILE
 		G4 F1
 		MSG("螺旋升角置零中")
 		G90 G01 A=-1 F=100

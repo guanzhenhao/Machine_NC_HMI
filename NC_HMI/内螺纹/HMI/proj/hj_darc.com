@@ -37,36 +37,9 @@
 	DEF VAR30=(R////WR4//"/NC/_N_NC_GD2_ACX/DARC[1]"/0,0,0/0,0,0/);齿高
 	
 	DEF QCHECK=(I////WR4//"/Plc/Q113.5"/0,0,0/0,0,0);循环启动Q点检测
-	DEF WARE=(I////WR4//"/NC/_N_NC_GD2_ACX/DRESSER[1]"/0,0,0/0,0,0/);修整器
-
 	;;按键定义
-		HS1=($85001,ac7,se1)
-		HS2=($85003,ac7,se3)
-		HS3=($85002,ac7,se1)
-		HS4=($85010,ac7,se1)
-		VS1=($85023,ac7,se3)
 		VS7=($85457,ac7,se1);"调整量清除"
 		VS8=($85005,ac7,se1)
-		PRESS(HS1)
-			LM("Mask0","hj_moxue.com",0);磨削界面
-		END_PRESS
-		PRESS(HS2)
-			LM("Mask0","hj_xiuzheng.com",0);修整界面
-		END_PRESS
-		PRESS(HS3)
-			LM("Mask0","hj_gongyi.com",0);修整界面
-		END_PRESS
-		PRESS(HS4)
-			LM("Mask0","hj_duidao.com",0);修整界面
-		END_PRESS
-		PRESS(VS1)
-			IF (VAR23.VAL==0)OR(VAR23==1)
-				LM("Mask0","hj_trap.com",0);修整界面
-			ENDIF
-			IF VAR23.VAL==2
-				LM("Mask0","hj_darc.com",0);修整界面
-			ENDIF
-		END_PRESS
 		PRESS(VS7)
 			VAR7.VAL=0
 			VAR8.VAL=0
@@ -76,7 +49,7 @@
 			VAR18.VAL=0
 		END_PRESS
 		PRESS(VS8)
-			EXIT
+			LM("Mask2","hj_xiuzheng.com",0);修整界面
 		END_PRESS
 
 	CHANGE(VAR3)

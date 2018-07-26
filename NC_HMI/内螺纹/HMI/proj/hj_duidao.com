@@ -10,25 +10,9 @@
 	DEF SIGNAL=(I/*0=$85014,1=$85013//$85534,$85534,,/WR1//"/Plc/DB2700.DBX1.0"/110,10,40/150,10,50/);测头信号
 
 ;;按键定义
-	HS1=($85001,ac7,se1)
-	HS2=($85003,ac7,se1)
-	HS3=($85002,ac7,se1)
-	HS4=($85010,ac7,se3)
 	VS8=($85005,ac7,se1)
-	PRESS(HS1)
-		LM("Mask0","hj_moxue.com",0);磨削界面
-	END_PRESS
-	PRESS(HS2)
-		LM("Mask0","hj_xiuzheng.com",0);修整界面
-	END_PRESS
-	PRESS(HS3)
-		LM("Mask0","hj_gongyi.com",0);修整界面
-	END_PRESS
-	PRESS(HS4)
-		LM("Mask0","hj_duidao.com",0);修整界面
-	END_PRESS
 	PRESS(VS8)
-		EXIT
+		LM("Mask0","hj_moxue.com",0);磨削界面
 	END_PRESS
 //END
 

@@ -58,26 +58,10 @@
 	DEF VAR7=(R///$85223,$85223,,$85043/WR2//"/NC/_N_NC_GD2_ACX/PROCESSER[108]"/100,25,150/210,25,100/1,4);已磨削量
 	DEF VAR8=(I///$85242,$85240,,/WR2//"/NC/_N_NC_GD2_ACX/PROCESSER[109]"/300,5,100/380,5,60/1,4);工件计数
 	DEF VAR9=(I///$85243,$85241,,/WR2//"/NC/_N_NC_GD2_ACX/PROCESSER[110]"/300,25,100/380,25,60/1,4);修整设定
-;;定义按键
-	HS1=($85001,ac7,se1)
-	HS2=($85003,ac7,se1)
-	HS3=($85002,ac7,se3)
-	HS4=($85010,ac7,se1)  
+;;定义按键 
 	VS8=($85005,ac7,se1)
-	PRESS(HS1)
-		LM("Mask0","hj_moxue.com",0);磨削界面
-	END_PRESS
-	PRESS(HS2)
-		LM("Mask0","hj_xiuzheng.com",0);修整界面
-	END_PRESS
-	PRESS(HS3)
-		LM("Mask0","hj_gongyi.com",0);工艺界面
-	END_PRESS
-	PRESS(HS4)
-		LM("Mask0","hj_duidao.com",0);对刀界面
-	END_PRESS
 	PRESS(VS8)
-		EXIT
+		LM("Mask0","hj_moxue.com",0);磨削界面
 	END_PRESS
 ;;CHANGE事件
     CHANGE(POSITION_5)
