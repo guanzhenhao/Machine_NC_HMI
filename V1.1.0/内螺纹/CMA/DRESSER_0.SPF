@@ -1,6 +1,6 @@
 PROC DRESSER_0(REAL DR0,REAL DR1,REAL DR2,REAL DR3,REAL DR4,REAL DR5,REAL DR6)  DISPLOF
 ;;**********程序功能**********
-;成型轮-X-后(仅适用于内螺纹)
+;成型轮-X-后(仅适用于内螺纹)V1.1.0
 ;;***************************
 ;DR0-粗修次数;DR1-粗修进给;DR2-粗修速度;DR3-精修次数;DR4-精修进给;DR5-精修速度;DR6-砂轮线速度
 WHILE((DRESSER[1]-2*(DR0*DR1+DR3*DR4))<=DRESSER[3]);判断砂轮是否可用

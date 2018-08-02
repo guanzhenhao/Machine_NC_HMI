@@ -1,6 +1,6 @@
 PROC DRESSER_WHEEL_RUN(REAL LINE_SPEED) DISPLOF
 ;;**********程序功能**********
-;;修整轮启动
+;;修整轮启动 V1.1.0
 ;LINE_SPEED砂轮线速度
 ;;***************************
 DEF REAL DR0,DR1
