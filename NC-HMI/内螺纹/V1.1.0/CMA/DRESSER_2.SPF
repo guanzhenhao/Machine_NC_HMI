@@ -50,7 +50,8 @@ G04 F1
         DRESSER[32]=LS0+DR0*DR1
         DRESSER[33]=LS1-DR0*DR1 
     DRESSER[22]=0;
-    WHILE(DRESSER[22]<(DR0+DR3))
+STOPRE
+    WHILE(DRESSER[22]<DR0)
         DRESSER[19]=DR1
         DRESSER[20]=DR2
         MSG("轮廓成型-->正在进行第"<<DRESSER[22]+1<<"次,还剩"<<DR0-DRESSER[22]-1<<"次完成,进给量:"<<DRESSER[19]<<"mm")
@@ -60,6 +61,7 @@ G04 F1
         EXECSTRING(SHAPE);调用齿型程序
         DRESSER[7]=1;将砂轮标记为旧砂轮
         DRESSER[22]=DRESSER[22]+1
+STOPRE
     ENDWHILE
     ENDIF
 ;;向下修整
