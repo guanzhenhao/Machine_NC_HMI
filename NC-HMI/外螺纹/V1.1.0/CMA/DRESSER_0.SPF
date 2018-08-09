@@ -42,12 +42,12 @@ ENDIF
     G04 F=DRESSER[16]
     G91 G01 V=0.1 F=DRESSER[20]
     DRESSER[7]=1;将砂轮标记为旧砂轮
-    DRESSER[1]=2*ABS(POSITION[0]-POSITION[5]);计算当前砂轮直径
+    DRESSER[1]=DRESSER[1]-2*DRESSER[19];计算当前砂轮直径
     POSITION[1]=POSITION[1]-DRESSER[19];计算磨削接触点坐标
     DRESSER[22]=DRESSER[22]+1
     DRESSER[23]=DRESSER[23]+1
     IF DRESSER[23]>=20
-        ;砂轮启动
+        GRIND_WHEEL_RUN(DR6);砂轮启动
         DRESSER[23]=0
         G04 F=1.5
     ENDIF
