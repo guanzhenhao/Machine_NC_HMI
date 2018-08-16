@@ -91,12 +91,12 @@ STOPRE
             POSITION[1]=POSITION[1]-DRESSER[19];计算磨削接触点坐标
             DRESSER[22]=DRESSER[22]+1
             DRESSER[23]=DRESSER[23]+1
+            STOPRE
             IF DRESSER[23]>=20
                 GRIND_WHEEL_RUN(DR6);砂轮启动
                 DRESSER[23]=0
                 G04 F=1.5
             ENDIF
-            DRFOF
     ENDWHILE
 G90 G01 X=POSITION[0]+10 F3500;砂轮离开滚轮10mm
 M29;关闭修整冷却

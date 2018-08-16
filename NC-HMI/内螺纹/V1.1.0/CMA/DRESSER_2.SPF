@@ -21,6 +21,7 @@ WHILE((DRESSER[1]-2*(DR0*DR1+DR3*DR4))<=DRESSER[3]);判断砂轮是否可用
 ENDWHILE
 LS0=POSITION[6]-DRESSER[28]/2;修左侧砂轮时滚轮圆弧中心与砂轮中心重合时坐标
 LS1=POSITION[6]+DRESSER[28]/2;修右侧砂轮时滚轮圆弧中心与砂轮中心重合时坐标
+STOPRE
 IF DRESSER[7]==0;新砂轮
     IF DRESSER[34]==0;抬刀半个砂轮宽度
 	    DRESSER[1]=DRESSER[0]+DRESSER[29];砂轮当前直径增加一个砂轮宽度
@@ -32,6 +33,7 @@ IF DRESSER[7]==0;新砂轮
         DRESSER[33]=LS1-DRESSER[29]/2
     ENDIF
 ENDIF
+STOPRE
 POSITION[20]=POSITION[5]-DRESSER[1]/2;依据当前砂轮直径,计算初始修整接触点坐标
 POSITION[0]=POSITION[20]
 M28;修整冷却启动
