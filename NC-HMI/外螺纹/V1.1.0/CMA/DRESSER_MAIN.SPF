@@ -1,4 +1,4 @@
-PROC DRESSER_MAIN (REAL DR0,REAL DR1,REAL DR2,REAL DR3,REAL DR4,REAL DR5,REAL DR6)  DISPLOF
+PROC DRESSER_MAIN (REAL DR0,REAL DR1,REAL DR2,REAL DR3,REAL DR4,REAL DR5,REAL DR6)  DISPLON
 ;;**********程序功能**********
 ;修整主程序,依据修整器结构选择不同的修整程序(仅适用于外螺纹)
 ;;***************************
@@ -15,7 +15,7 @@ LABEL_2:
         DRESSER_2(DR0,DR1,DR2,DR3,DR4,DR5,DR6)  ;;V-W插补修整
         GOTOF END_RET
 LABEL_3:
-        DRESSER_2(DR0,DR1,DR2,DR3,DR4,DR5,DR6)  ;;X-Z插补修整
+        DRESSER_3(DR0,DR1,DR2,DR3,DR4,DR5,DR6)  ;;X-Z插补修整
         GOTOF END_RET
 LABEL_4:
         WHILE()
@@ -25,6 +25,3 @@ LABEL_4:
 END_RET:
 
 RET
-
-
-

@@ -92,6 +92,7 @@ STOPRE
             DRESSER[7]=1;将砂轮标记为旧砂轮
             DRESSER[1]=DRESSER[1]-2*DRESSER[19];计算当前砂轮直径
             POSITION[1]=POSITION[1]-DRESSER[19];计算磨削接触点坐标
+            POSITION[21]=POSITION[21]-DRESSER[19];计算初始磨削接触点坐标
             DRESSER[22]=DRESSER[22]+1
             DRESSER[23]=DRESSER[23]+1
             IF DRESSER[23]>=20
