@@ -78,7 +78,7 @@ WHILE((DRESSER[1]-PROCESSER[110])<DRESSER[3])
     MSG("砂轮过小，请跟换砂轮!!!")
 ENDWHILE
 
-G90 G01 Z=POSITION[11]+100 F4500;Z轴快速移动到距离磨削起点100mm处
+G90 G01 Z=POSITION[11]+50 F4500;Z轴快速移动到距离磨削起点50mm处
 G90 G01 X=POSITION[13] F3500;X轴快速移动到安全位置
 G90 G01 Z=POSITION[11] F4500;Z轴快速移动到磨削起点
 PROCESSER[103]=0;用于标记是否进行过磨削中修整(0=否/1=是)
