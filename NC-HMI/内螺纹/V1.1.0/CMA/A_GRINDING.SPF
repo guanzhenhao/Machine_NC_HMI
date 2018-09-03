@@ -3,6 +3,9 @@ PROC A_GRINDING DISPLOF
 ;磨削主程序(仅适用于内螺纹)V1.1.0
 ;;***************************
 DEF REAL DR0,DR1,DR2,DR3
+IF CONFIG[1]==1 ;有自动门
+    M48;自动门关闭
+ENDIF
 GRIND[22]=0
 IF $A_DBB[0]==1;修整键点亮标记
     GRIND[22]=1
@@ -10,9 +13,11 @@ ENDIF
 IF $A_DBB[1]==1;手动对刀键点亮标记
 	GRIND[22]=2
 ELSE
-	IF $A_DBB[5]==1;自动对刀键点亮标记
-		GRIND[22]=3
-	ENDIF
+    IF CONFIG[0]==1;有自动对刀
+        IF $A_DBB[5]==1;自动对刀键点亮标记
+            GRIND[22]=3
+        ENDIF
+    ENDIF
 ENDIF
 POSITION[11]=POSITION[10];磨削起点赋值
 POSITION[12]=POSITION[9];磨削终点赋值
@@ -117,6 +122,7 @@ END_GRIND_MAIN:
 FGROUP(Z)
 G90 G01 Z=POSITION[3] C=POSITION[4] F=4500
 G90 G01 X=POSITION[2] F=3500
+M47;自动门打开
 RET
 
 
