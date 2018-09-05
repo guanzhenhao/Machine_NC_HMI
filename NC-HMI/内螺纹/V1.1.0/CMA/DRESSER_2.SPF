@@ -24,18 +24,17 @@ LS1=POSITION[6]+DRESSER[28]/2;修右侧砂轮时滚轮圆弧中心与砂轮中�
 STOPRE
 IF DRESSER[7]==0;新砂轮
     IF DRESSER[34]==0;抬刀半个砂轮宽度
-	    DRESSER[1]=DRESSER[0]+DRESSER[29];砂轮当前直径增加一个砂轮宽度
+	   POSITION[0]=POSITION[0]+DRESSER[29];修整接触点增加一个砂轮宽度
         DRESSER[32]=LS0
         DRESSER[33]=LS1
     ELSE;左右偏置半个砂轮宽度
-        DRESSER[1]=DRESSER[0]
         DRESSER[32]=LS0+DRESSER[29]/2
         DRESSER[33]=LS1-DRESSER[29]/2
     ENDIF
 ENDIF
 STOPRE
-POSITION[20]=POSITION[5]-DRESSER[1]/2;依据当前砂轮直径,计算初始修整接触点坐标
-POSITION[0]=POSITION[20]
+;POSITION[20]=POSITION[5]-DRESSER[1]/2;依据当前砂轮直径,计算初始修整接触点坐标
+;POSITION[0]=POSITION[20]
 M28;修整冷却启动
 GRIND_WHEEL_RUN(DR6);砂轮启动
 GRIND_WHEEL_RUN(DRESSER[9]);金刚轮启动

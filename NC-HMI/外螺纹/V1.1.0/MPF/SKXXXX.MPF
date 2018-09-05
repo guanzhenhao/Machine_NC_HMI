@@ -1,0 +1,21 @@
+;***********机床信息**********
+;*机床型号: machineName
+;*机床名称: machineCHS
+;*出厂编号: machineIndex
+;*用户名称: customInfo
+;*调试日期: debugDate
+;****************************
+;*软件版本: softwareVersion
+;*配置代码: specificationInfo
+;*特殊处理: specialDealWithMark
+CONFIG[1]=0;有无自动门0=无/1=有
+CONFIG[2]=0;有无自动螺旋角0=无/1=有
+CONFIG[3]=0;砂轮类型选择(0模拟量/1伺服/2异步电机)
+CONFIG[4]=0;修整轮类型选择(0模拟量/1伺服2异步电机)
+CONFIG[7]==0;不螺旋退出工件
+CONFIG[8]==0;成型V与VW修整同时开放 0=否、1=是
+TOOL_SET[4]=0;对刀方式选择(0=ZC差不对刀/1=静止对刀)
+DRESSER[34]=1;0抬刀半个砂轮宽度、1偏置半个砂轮宽度
+A_GRINDING
+RET
+
