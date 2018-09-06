@@ -9,8 +9,8 @@ WHEN $A_DBB[2]==1 DO DELDTG(X) $R[280]=$AA_IM[X] $R[281]=$AA_IM[Z];删除余程�
 WHEN ($A_DBB[2]==1) AND ($A_DBB[19]==1) DO POS[X]=0.2 FA[X]=30;0.4秒后退0.2mm
 
 TEMPORARY_0=ABS(DR2-DR1);磨削长度
-TEMPORARY_1=360*(TEMPORARY_0+GRIND[18])/GRIND[3];磨削总角度
-GRIND[17]=GRIND[16]*(TEMPORARY_0-GRIND[18]);计算该磨削在对应锥度下X轴方向上的增量
+TEMPORARY_1=360*(TEMPORARY_0-GRIND[18])/GRIND[3];磨削总角度
+GRIND[17]=GRIND[16]*TEMPORARY_0;计算该磨削在对应锥度下X轴方向上的增量
 FGROUP(C)
 IF DR2-DR1<0;从右往左磨
     G91 G01 Z=-1*TEMPORARY_0 C=GRIND[0]*TEMPORARY_1 X=-1*GRIND[17] F=DR3*360

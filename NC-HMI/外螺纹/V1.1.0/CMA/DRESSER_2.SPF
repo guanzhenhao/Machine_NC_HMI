@@ -22,9 +22,11 @@ LS0=POSITION[6]-DRESSER[28]/2;修左侧砂轮时滚轮圆弧中心与砂轮中�
 LS1=POSITION[6]+DRESSER[28]/2;修右侧砂轮时滚轮圆弧中心与砂轮中心重合时坐标
 STOPRE
 IF DRESSER[7]==0;新砂轮
+    TAIDAO;计算新砂轮抬刀高度
     STOPRE
-    IF DRESSER[34]==0;抬刀半个砂轮宽度
-	    POSITION[0]=POSITION[0]+DRESSER[29];当前修整接触点抬高一个砂轮宽度
+    IF DRESSER[34]==0;抬刀
+	    POSITION[0]=POSITION[0]+DRESSER[37];修整接触点抬高一个齿形高
+        DRESSER[1]=2*ABS(POSITION[0]-POSITION[5])
         DRESSER[32]=LS0
         DRESSER[33]=LS1
     ELSE;左右偏置半个砂轮宽度
@@ -63,6 +65,7 @@ STOPRE
         ENDWHILE
     ENDIF
 ;;向下修整
+    STOPRE
     IF(DRESSER[1]>(DRESSER[2]+40*DR4));当前砂轮直径>最大砂轮直径+40*DR4
         DR0=ROUNDUP((DRESSER[1]-(DRESSER[2]+40*DR4))/(2*DR1));粗修次数
         DR3=20;精修次数
