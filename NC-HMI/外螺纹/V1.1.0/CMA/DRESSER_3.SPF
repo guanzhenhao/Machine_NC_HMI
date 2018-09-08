@@ -5,6 +5,10 @@ PROC DRESSER_3(REAL DR0,REAL DR1,REAL DR2,REAL DR3,REAL DR4,REAL DR5,REAL DR6)  
 ;DR0-粗修次数;DR1-粗修进给;DR2-粗修速度;DR3-精修次数;DR4-精修进给;DR5-精修速度;DR6-砂轮线速度
 DEF STRING[20] SHAPE
 DEF REAL LS0,LS1,DRESSER_TIME
+WHILE((DRESSER[1]-2*(DR0*DR1+DR3*DR4))<=DRESSER[3]);判断砂轮是否可用
+    MSG("砂轮过小，请跟换砂轮!!!")
+    M0
+ENDWHILE
 ;;插补轴名称赋值
     AXIS_HORI="Z";水平轴
     AXIS_VER="X";竖直轴
@@ -15,10 +19,7 @@ DEF REAL LS0,LS1,DRESSER_TIME
     IF DRESSER[27]==2
         SHAPE="DOUBLE_ARC";双圆弧
     ENDIF
-WHILE((DRESSER[1]-2*(DR0*DR1+DR3*DR4))<=DRESSER[3]);判断砂轮是否可用
-    MSG("砂轮过小，请跟换砂轮!!!")
-    M0
-ENDWHILE
+
 LS0=POSITION[6]-DRESSER[28]/2;修左侧砂轮时滚轮圆弧中心与砂轮中心重合时坐标
 LS1=POSITION[6]+DRESSER[28]/2;修右侧砂轮时滚轮圆弧中心与砂轮中心重合时坐标
 IF DRESSER[7]==0;新砂轮
@@ -26,7 +27,7 @@ IF DRESSER[7]==0;新砂轮
     STOPRE
     IF DRESSER[34]==0;抬刀
 	    POSITION[0]=POSITION[0]+DRESSER[37];修整接触点抬高一个齿形高
-        DRESSER[1]=2*ABS(POSITION[0]-POSITION[5])
+        DRESSER[1]=2*ABS(POSITION[0]-POSITION[5]);计算当前砂轮直径
         DRESSER[32]=LS0
         DRESSER[33]=LS1
     ELSE;左右偏置半个砂轮宽度
@@ -34,8 +35,6 @@ IF DRESSER[7]==0;新砂轮
         DRESSER[33]=LS1-DRESSER[29]/2
     ENDIF
 ENDIF
-;POSITION[20]=POSITION[5]+DRESSER[1]/2;依据当前砂轮直径,计算初始修整接触点坐标
-;PSITION[0]=POSITION[20]
 GRIND_WHEEL_RUN(DR6);砂轮启动
 M28;修整冷却启动
 GRIND_WHEEL_RUN(DRESSER[9]);金刚轮启动
@@ -69,7 +68,7 @@ STOPRE
         DR0=ROUNDUP((DRESSER[1]-(DRESSER[2]+40*DR4))/(2*DR1));粗修次数
         DR3=20;精修次数
     ENDIF
-    IF((DRESSER[2]+40*DR4)>=DRESSER[1])AND(DRESSER[1]>=DRESSER[2]);最大砂轮直径+40*DR4>当前砂轮直径>最大砂轮直径大
+    IF((DRESSER[2]+40*DR4)>=DRESSER[1])AND(DRESSER[1]>DRESSER[2]);最大砂轮直径+40*DR4>当前砂轮直径>最大砂轮直径大
         DR0=0
         DR3=ROUNDUP((DRESSER[1]-DRESSER[2])/(2*DR4));精修次数
     ENDIF
@@ -89,8 +88,9 @@ STOPRE
             POSITION[0]=POSITION[0]-DRESSER[19]
             EXECSTRING(SHAPE);调用齿型程序
             DRESSER[7]=1;将砂轮标记为旧砂轮
-            DRESSER[1]=DRESSER[1]-2*DRESSER[19];计算当前砂轮直径
+            DRESSER[1]=2*ABS(POSITION[0]-POSITION[5]);依据当前接触点坐标计算砂轮直径
             POSITION[1]=POSITION[1]-DRESSER[19];计算磨削接触点坐标
+            POSITION[21]=POSITION[7]+DRESSER[1]/2;计算初始磨削接触点坐标
             DRESSER[22]=DRESSER[22]+1
             DRESSER[23]=DRESSER[23]+1
             IF DRESSER[23]>=20
