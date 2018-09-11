@@ -81,6 +81,8 @@
 			IF VAR_SL0.VAL==0;新砂轮时当前砂轮直径等于新砂轮直径,计算修整接触点
 				VAR_SL9.VAL=2*(VAR_GL1.VAL-VAR_GL0.VAL);计算当前砂轮直径
 				GUANCHA_0.VAL=VAR_GL0.VAL+VAR_SL9.VAL/2;依据当前砂轮直径计算修整接触点坐标
+			ELSE
+				VAR_SL9.VAL=2*(GUANCHA_0.VAL-VAR_GL0.VAL);计算当前砂轮直径
 			ENDIF
 		END_SUB
 		SUB(UP3)
@@ -175,6 +177,8 @@
 			IF VAR_SL0.VAL==0;新砂轮
 				VAR_SL9.VAL=2*(VAR_GL1.VAL-VAR_GL0.VAL);计算当前砂轮直径
 				GUANCHA_0.VAL=VAR_GL0.VAL+VAR_SL9.VAL/2
+			ELSE
+				VAR_SL9.VAL=2*(GUANCHA_0.VAL-VAR_GL0.VAL);计算当前砂轮直径
 			ENDIF
 		END_SUB
 		SUB(UP3)
@@ -283,6 +287,8 @@
 			IF VAR_SL0.VAL==0;新砂轮
 				VAR_SL9.VAL=2*(VAR_JZ2.VAL-VAR_JZ1.VAL);计算当前砂轮直径
 				GUANCHA_0.VAL=VAR_JZ1.VAL+VAR_SL9.VAL/2;依据当前砂轮直径与修整基准计算修整接触点
+			ELSE
+				VAR_SL9.VAL=2*(GUANCHA_0.VAL-VAR_JZ1.VAL);计算当前砂轮直径
 			ENDIF
 		END_SUB
 		SUB(UP3)

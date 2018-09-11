@@ -87,12 +87,17 @@ STOPRE
         ENDIF
             POSITION[0]=POSITION[0]-DRESSER[19]
             EXECSTRING(SHAPE);调用齿型程序
-            DRESSER[7]=1;将砂轮标记为旧砂轮
             DRESSER[1]=2*ABS(POSITION[0]-POSITION[5]);依据当前接触点坐标计算砂轮直径
-            POSITION[1]=POSITION[1]-DRESSER[19];计算磨削接触点坐标
             POSITION[21]=POSITION[7]+DRESSER[1]/2;计算初始磨削接触点坐标
+            STOPRE
+            IF DRESSER[7]==0;新砂轮
+                POSITION[1]=POSITION[21]
+            ELSE
+                POSITION[1]=POSITION[1]-DRESSER[19];计算磨削接触点坐标
+            ENDIF             
             DRESSER[22]=DRESSER[22]+1
             DRESSER[23]=DRESSER[23]+1
+            DRESSER[7]=1;将砂轮标记为旧砂轮
             IF DRESSER[23]>=20
                 GRIND_WHEEL_RUN(DR6);砂轮启动
                 DRESSER[23]=0

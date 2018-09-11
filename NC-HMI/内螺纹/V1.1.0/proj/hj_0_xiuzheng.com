@@ -80,6 +80,8 @@
 			IF VAR_SL0.VAL==0;新砂轮
 				VAR_SL9.VAL=2*(VAR_GL1.VAL-VAR_GL0.VAL);计算当前砂轮直径
 				GUANCHA_0.VAL=VAR_GL0.VAL+VAR_SL9.VAL/2;依据当前砂轮直径计算修整接触点坐标
+			ELSE
+				VAR_SL9.VAL=2*(GUANCHA_0.VAL-VAR_GL0.VAL);计算当前砂轮直径
 			ENDIF
 		END_SUB
 		SUB(UP3)
@@ -174,6 +176,8 @@
 			IF VAR_SL0.VAL==0;新砂轮
 				VAR_SL9.VAL=2*(VAR_GL0.VAL-VAR_GL1.VAL);计算当前砂轮直径
 				GUANCHA_0.VAL=VAR_GL0.VAL-VAR_SL9.VAL/2
+			ELSE
+				VAR_SL9.VAL=2*(VAR_GL0.VAL-GUANCHA_0.VAL);计算当前砂轮直径
 			ENDIF
 		END_SUB
 		SUB(UP3)
@@ -209,7 +213,7 @@
 		DEF VAR_SL13=(R2///$85303,$85303,,$85043/WR2//"/NC/_N_NC_GD2_ACX/DRESSER[4]"/295,350,130/440,350,110/7,4);最小砂轮磨削直径		
 	;;滚轮参数
 		DEF VAR_JZ0=(R///$85609,$85608,,$85043/WR2,ac3/"panel_2_7_chs.png"/"/NC/_N_NC_GD2_ACX/POSITION[7]"/10,200,110/110,200,110/6,4);砂轮中心与滚轮中心水平重合时Z轴坐标	
-		DEF VAR_JZ1=(R///$85627,$85601,,$85043/WR2,ac3/"panel_2_8_chs.png"/"/NC/_N_NC_GD2_ACX/POSITION[6]"/10,220,110/110,220,110/6,4);修整接触位置基准(砂轮主轴中心与滚轮圆弧顶部(金刚笔尖)重合时X轴坐标)
+		DEF VAR_JZ1=(R///$85627,$85601,,$85043/WR1/"panel_2_8_chs.png"/"/NC/_N_NC_GD2_ACX/POSITION[6]"/10,220,110/110,220,110/3,4);修整接触位置基准(砂轮主轴中心与滚轮圆弧顶部(金刚笔尖)重合时X轴坐标)
 		DEF VAR_JZ2=(R///$85626,$85602,,$85043/WR2,ac3/"panel_2_9_chs.png"/"/NC/_N_NC_GD2_ACX/DRESSER[25]"/10,240,110/110,240,110/6,4);手动对出的新砂轮触碰滚轮时X轴坐标	
 		DEF VAR_GL1=(R///$85610,$85610,,$85043/WR4,ac3//"/NC/_N_NC_GD2_ACX/DRESSER[6]"/10,270,50/110,270,110/6,4);修整轮左侧圆弧半径
 		DEF VAR_GL2=(R///$85611,$85611,,$85043/WR4,ac3//"/NC/_N_NC_GD2_ACX/DRESSER[7]"/10,290,50/110,290,110/6,4);修整轮右侧圆弧半径
@@ -281,6 +285,8 @@
 			IF VAR_SL0.VAL==0;新砂轮时当前砂轮直径等于新砂轮直径,计算修整接触点
 				VAR_SL9.VAL=2*(VAR_JZ1.VAL-VAR_JZ2.VAL)
 				GUANCHA_0.VAL=VAR_JZ1.VAL-VAR_SL9.VAL/2
+			ELSE
+				VAR_SL9.VAL=2*(GUANCHA_0.VAL-VAR_JZ1.VAL);计算当前砂轮直径
 			ENDIF
 		END_SUB
 		SUB(UP3)
