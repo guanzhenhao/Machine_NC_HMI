@@ -3,7 +3,7 @@ PROC ROTATE_ANGLE DISPLON
 ;;螺旋升角 V1.1.0
 ;;***************************
 ;计算升角值
-IF GRIND[21]==1
+IF CONFIG[2]==1
     GRIND[23]=-GRIND[0]*(GRIND[8]+GRIND[9]/60+GRIND[10]/3600);计算升角值
 	;螺旋升角值
 	IF TRUNC($AA_IM[A]*1000)<>TRUNC(GRIND[23]*1000)
