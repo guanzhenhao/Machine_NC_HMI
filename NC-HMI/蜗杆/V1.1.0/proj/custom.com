@@ -1,8 +1,11 @@
 ;;;;;;;;;;;;;;;;;;;start:欢迎画面:;;;;;;;;;;;;;;;;;;;;;;;;;
 //S(Start)
-
-	HS7=($85000,ac7,se1)
-	VS1=($85006,ac7,se1) 	
+	HS6=("双齿面磨削",ac7,se1)
+	HS7=("常规磨削",ac7,se1)
+	VS1=($85006,ac7,se1) 
+	PRESS(HS6)
+		LM("Mask1","hj_3_moxue.com",0);磨削界面加载
+	END_PRESS	
 	PRESS(HS7)
 		LM("Mask0","hj_3_moxue.com",0);磨削界面加载
 	END_PRESS

@@ -4,6 +4,7 @@ PROC C_OPERATION_AUTO DISPLON
 ;;适用于接近开关测量外螺纹滚到
 ;;***************************
 DEF REAL DR3,DR4,DR5
+M70;切换旋转轴
 MSG("正在运行到测量位置")
 G01 G90 C=0 F10800;C轴快速移动到测量角度
 
@@ -27,8 +28,8 @@ IF $AC_MEA[1]==1;如果感应到信号,收回测头，C周旋转
     GOTOB LABLE0
 ENDIF
 
-;右侧测量
-MEAS=1 G91 G01 Z=-2*GRIND[4] F=600;第一次快速测量右侧齿顶
+;C轴正向旋转测量
+MEAS=1 G91 G01 C=300 F=1080;第一次快速测量
 STOPRE
 WHILE($AC_MEA[1]==0);如果没有感应到信号
 MSG("测量错误,测头未检测到信号")
@@ -36,20 +37,21 @@ M0
 ENDWHILE
 STOPRE
 WHILE($A_PROBE[1]==1);如果感应到信号，反向离开
-G91 G01 Z=0.2*GRIND[4] F=600
+G91 G01 C=-15 F=1080
 ENDWHILE
-MEAS=1 G91 G01 Z=-2*GRIND[4] F=150;第二次慢速测量右侧齿顶
+MEAS=1 G91 G01 C=300 F=360;第二次慢速测量
 STOPRE
 WHILE($AC_MEA[1]==0);如果没有感应到信号
 MSG("测量错误,测头未检测到信号")
 M0
 ENDWHILE
-DR0=$AA_MM[Z];记录右侧感应点坐标
+DR0=$AA_MM[C];记录右侧感应点坐标
 WHILE($A_PROBE[1]==1);如果感应到信号，反向离开
-G91 G01 Z=0.2*GRIND[4] F=600
+G91 G01 C=-15 F=1080
 ENDWHILE
-;左侧测量
-MEAS=1 G91 G01 Z=2*GRIND[4] F=600;第一次快速测量左侧齿顶
+
+;C轴负向旋转测量
+MEAS=1 G91 G01 C=-300 F=1080;第一次快速测量
 STOPRE 
 WHILE($AC_MEA[1]==0);如果没有感应到信号
 MSG("测量错误,测头未检测到信号")
@@ -57,28 +59,31 @@ M0
 ENDWHILE
 STOPRE
 WHILE($A_PROBE[1]==1);如果感应到信号，反向离开
-G91 G01 Z=-0.2*GRIND[4] F=600
+G91 G01 C=15 F=1080
 ENDWHILE
-MEAS=1 G91 G01 Z=2*GRIND[4] F=150;第二次慢速测量左侧齿顶
-STOPRE
+MEAS=1 G91 G01 C=-300 F=360;第二次慢速测量
 WHILE($AC_MEA[1]==0);如果没有感应到信号
 MSG("测量错误,测头未检测到信号")
 M0
 ENDWHILE
-DR1=$AA_MM[Z];记录右侧感应点坐标
+DR1=$AA_MM[C];记录右侧感应点坐标
 STOPRE
 WHILE($A_PROBE[1]==1);如果感应到信号，反向离开
-G91 G01 Z=-0.2*GRIND[4] F=600
+G91 G01 C=15 F=1080
 ENDWHILE
 
-TOOL_SET[2]=POSITION[16]
-DR2=(DR0+DR1)/2;测头中心在滚道中心Z坐标
-DR5=DR2-TOOL_SET[6];砂轮中心在滚道中心Z坐标
+TOOL_SET[2]=0
+STOPRE
+IF DR0<DR1
+    DR1=DR1-360
+ENDIF
+DR2=(DR0+DR1)/2;测头中心在滚道中心C坐标
+ANG_WITHIN_360(DR2);调整到0-360
 
 ;计算C初始角
-DR3=ABS(DR5-POSITION[11]);计算理论完成对刀点到磨削起点距离
+DR3=ABS(TOOL_SET[23]-POSITION[11]);计算砂轮与测头中心重合点Z到磨削起点Z距离
 DR4=(DR3/GRIND[3]-TRUNC(DR3/GRIND[3]))*360;磨削起点到对刀点C轴旋转角度计算
-TOOL_SET[0]=TOOL_SET[2]-GRIND[0]*DR4
+TOOL_SET[0]=TOOL_SET[2]-DR4+180
 ANG_WITHIN_360(TOOL_SET[0]);调整到0-360
 G01 G90 X=POSITION[17] F3500;测头快速移动到工件中心
 M34;测头收回

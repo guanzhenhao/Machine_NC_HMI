@@ -8,11 +8,15 @@
 	DEF VAR5=(R/-500,500//$85538,$85537,,$85043/WR2/"panel_4_5_chs.png"/"/NC/_N_NC_GD2_ACX/TOOL_SET[11]"/330,160,110/440,160,110/);接近开关在工件中心时X轴坐标
 	DEF VAR6=(R/-500,500//$85540,$85539,,$85043/WR2/"panel_4_6_chs.png"/"/NC/_N_NC_GD2_ACX/TOOL_SET[12]"/330,190,110/440,190,110/);接近开关感应到信号时X轴坐标
 	DEF SIGNAL=(I/*0=$85014,1=$85013//$85534,$85534,,/WR1//"/Plc/DB2700.DBX1.0"/110,10,40/150,10,50/);测头信号
-
+	DEF VAR10=(R/*0=$85191,1=$85192//$85089,$85089,,/WR4//"/NC/_N_NC_GD2_ACX/GRIND[28]"/0,0,0/380,10,70/3,4);0=X向磨削/1=双齿面磨削
 ;;按键定义
 	VS8=($85005,ac7,se1)
-	PRESS(VS8)
-		LM("Mask0","hj_3_moxue.com",0);磨削界面
-	END_PRESS
+    PRESS(VS8)
+        IF BIAOJI.VAL==0
+			LM("Mask0","hj_3_moxue.com",0);磨削界面
+		ELSE
+			LM("Mask1","hj_3_moxue.com",0);磨削界面
+		ENDIF
+    END_PRESS
 //END
 

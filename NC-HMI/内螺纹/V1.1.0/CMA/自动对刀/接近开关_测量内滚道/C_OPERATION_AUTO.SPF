@@ -4,6 +4,7 @@ PROC C_OPERATION_AUTO DISPLON
 ;;适用于接近开关Z轴移动测量内滚道V1.1.0
 ;;***************************
 DEF REAL DR3,DR4,DR5
+M70;C轴切换为旋转轴
 MSG("正在运行到测量位置")
 G01 G90 Z=POSITION[15] F5000;Z轴快速移动到测量起始安全位置
 G01 G90 C=POSITION[16] F10800;C轴快速移动到测量角度
