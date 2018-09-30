@@ -3,7 +3,7 @@ PROC OPERATION_JOG DISPLOF
 ;手动对刀程序(仅适用于外螺纹)
 ;;***************************
 GRIND_WHEEL_RUN(PROCESSER[85]);砂轮启动
-M70;C轴切换为旋转轴
+
 IF TOOL_SET[12]==0;起点对刀
     G90 G01 C=ACP(0) F=10800;手动对刀C轴初始角度为0°
     MSG("正在移动至磨削起点!!!")
