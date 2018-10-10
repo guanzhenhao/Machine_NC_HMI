@@ -4,7 +4,7 @@ PROC Z_C_INTERPOLATION(REAL DR1,REAL DR2,REAL DR3) DISPLOF
 ;DR1:z轴起点;DR2:z轴终点;DR3:头架转速
 ;;***************************
 DEF REAL TEMPORARY_0,TEMPORARY_1,FEED_Z,FEED_X
-
+TOOL_SET[24]=1;标记异步子程序计算
 WHEN $A_DBB[2]==1 DO DELDTG(X) $R[280]=$AA_IM[X] $R[281]=$AA_IM[Z];删除余程延时0.1s执行下面的
 WHEN ($A_DBB[2]==1) AND ($A_DBB[19]==1) DO POS[X]=0.2 FA[X]=30;0.4秒后退0.2mm
 

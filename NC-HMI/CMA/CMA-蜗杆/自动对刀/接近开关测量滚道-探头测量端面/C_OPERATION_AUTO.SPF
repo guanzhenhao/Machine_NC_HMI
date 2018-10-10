@@ -1,10 +1,17 @@
 PROC C_OPERATION_AUTO DISPLON
 ;;**********程序功能**********
 ;;蜗杆自动对刀程序:
-;;适用于接近开关测量单导程蜗杆
+;;适用于接近开关测量蜗杆蜗杆滚道中心-探头测量工件端面确保工件中间齿厚一致
 ;;***************************
-DEF REAL DR0,DR1,DR2,DR3,DR4,DR5
+DEF REAL DR0,DR1,DR2,DR3,DR4,DR5,DR6,DR7,DR8,DR9
 
+;依据选择的加工方式确定自动对刀时使用的导程
+IF GRIND[27]==0
+    DR6=GRIND[3]
+ELSE
+    DR6=(GRIND[3]+GRIND[25])/2
+ENDIF
+;;寻找齿槽中心
 MSG("正在运行到测量位置")
 G01 G90 C=0 F10800;C轴快速移动到测量角度
 
@@ -82,9 +89,9 @@ ANG_WITHIN_360(DR2);调整到0-360
 
 ;计算C初始角
 DR3=ABS(TOOL_SET[23]-POSITION[11]);计算砂轮与测头中心重合点Z到磨削起点Z距离
-DR4=(DR3/GRIND[3]-TRUNC(DR3/GRIND[3]))*360;磨削起点到对刀点C轴旋转角度计算
-TOOL_SET[0]=TOOL_SET[2]-DR4+180
-ANG_WITHIN_360(TOOL_SET[0]);调整到0-360
+DR4=(DR3/DR6-TRUNC(DR3/DR6))*360;磨削起点到对刀点C轴旋转角度计算
+DR5=TOOL_SET[2]-DR4+180
+ANG_WITHIN_360(DR5);调整到0-360
 G01 G90 X=POSITION[17] F3500;测头快速移动到工件中心
 M34;测头收回
 G01 G90 Z=POSITION[15] F5000;Z轴快速移动到测量起始安全位置
@@ -92,4 +99,64 @@ WHILE($A_DBB[7]<>1)
 MSG("等待测头收回到位中")
 G04 F0.2
 ENDWHILE
+
+;;测量端面
+G90 G01 X=TOOL_SET[25]+20 F3000
+G90 G01 Z=TOOL_SET[26]+20 F3500
+M90;测头伸出
+STOPRE
+WHILE($A_DBB[21]<>1);检测侧头是否伸出到位
+    MSG("等待测头伸出到位中!!!")
+    G04 F0.2
+ENDWHILE
+
+MEAS=2 G90 G01 X=TOOL_SET[25] F300
+G04 F0.1
+STOPRE
+WHILE($AC_MEA[2]==1);如果有感应到信号
+MSG("测量错误,测头X向进给碰撞，请检查设定参数")
+M0
+ENDWHILE
+
+MEAS=2 G90 G01 Z=TOOL_SET[26]-10 F100
+G04 F0.1
+STOPRE
+WHILE($AC_MEA[2]==0);如果没有感应到信号
+MSG("测量错误,测头Z向寻找端面失败，请检查设定参数")
+M0
+ENDWHILE
+;;依据自动动刀得到的滚道中心C角度DR5计算新的TOOL_SET[0]和TOOL_SET[21]
+STOPRE
+TOOL_SET[27]=$AA_MM[Z];记录端面坐标
+IF TOOL_SET[5]==1;首件
+    TOOL_SET[28]=TOOL_SET[27];记录首件端面Z
+ENDIF
+DR9=TOOL_SET[28]-TOOL_SET[27]
+DR5=DR5+GRIND[0]*(DR9/DR6*360)
+ANG_WITHIN_360(DR5);调整到0-360
+IF GRIND=0;右旋
+    IF TOOL_SET[0]>TOOL_SET[21];左齿面起始角度大于又齿面
+        DR8=ABS(TOOL_SET[0]-(TOOL_SET[21]+360))/2
+    ELSE
+        DR8=ABS(TOOL_SET[0]-TOOL_SET[21])/2
+    ENDIF
+ELSE
+    IF TOOL_SET[0]<TOOL_SET[21];左齿面起始角度大于又齿面
+        DR8=ABS((TOOL_SET[0]+360)-TOOL_SET[21])/2
+    ELSE
+        DR8=ABS(TOOL_SET[0]-TOOL_SET[21])/2
+    ENDIF
+ENDIF
+
+TOOL_SET[0]=DR5-GRIND[0]*DR8
+ANG_WITHIN_360(TOOL_SET[0]);调整到0-360
+
+TOOL_SET[21]=DR5+GRIND[0]*DR8
+ANG_WITHIN_360(TOOL_SET[21]);调整到0-360
+
+
+
+
 RET
+
+

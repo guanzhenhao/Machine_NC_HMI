@@ -1,15 +1,19 @@
 PROC PLCASUP1 DISPLON
 ;;**********程序功能**********
-;;对刀计算程序(仅适用于外螺纹)
+;;对刀计算程序(仅适用于蜗杆)
 ;;***************************
 DEF REAL DR0,DR1,DR2,DR3,DR4,DR5,DR6,DR7
+IF TOOL_SET[24]==0
+    GOTO X_BACK
+ENDIF
 DR0=R280;对刀完成后x轴坐标(用于磨削初始进刀位)
 DR1=R281;手动对刀完成后Z轴坐标
 DR2=$AC_DRF[Z];对刀完成时手轮偏置值
 DR3=$AC_DRF[X];对刀完成时手轮偏置值
 
 IF(GRIND[22]==2);手动对刀
-    ;左右齿面对刀分别计算
+   ;左右齿面对刀分别计算
+    STOPRE
     IF TOOL_SET[22]==0
         ;依据对刀起点到磨削起点的距离差计算磨削起始角度
         DR4=ABS(TOOL_SET[3]-POSITION[11]);当前位置到起始点的距离
@@ -39,7 +43,7 @@ IF(GRIND[22]==2);手动对刀
         ELSE
             POSITION[21]=DR0+ABS(DR1-POSITION[11])*GRIND[16];磨削接触点坐标
         ENDIF
-        POSITION[1]=POSITION[21]
+        POSITION[1]=POSITION[21];磨削接触点坐标赋值
         POSITION[7]=POSITION[21]-DRESSER[1]/2;磨削接触位置基准
         TOOL_SET[5]=1;首件对刀结束后标记为非首件对刀
 	ENDIF
@@ -58,6 +62,12 @@ ELSE;不是对刀
 ENDIF
 POSITION[8]=POSITION[5];转存修整基准,用于程序安全判断
 DRFOF
+
+X_BACK：
+IF $A_DBB[2]==1;按下退刀键
+    DRFOF
+	G90 G01 X=POSITION[2] F=3500;X退回工件装夹位
+ENDIF
 RET
 
 
